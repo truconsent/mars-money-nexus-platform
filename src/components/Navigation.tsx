@@ -10,13 +10,13 @@ export const Navigation = () => {
   return (
     <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
             <Link to="/">
               <img 
                 src="/lovable-uploads/eb39d5b7-edd4-4395-a6cf-ad518b7a01ce.png" 
                 alt="mars.money" 
-                className="h-12 w-auto"
+                className="h-24 w-auto"
               />
             </Link>
           </div>

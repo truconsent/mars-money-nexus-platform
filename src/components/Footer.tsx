@@ -1,4 +1,3 @@
-
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 
@@ -11,7 +10,7 @@ export const Footer = () => {
             <img 
               src="/lovable-uploads/eb39d5b7-edd4-4395-a6cf-ad518b7a01ce.png" 
               alt="mars.money" 
-              className="h-12 w-auto mb-4 filter brightness-0 invert"
+              className="h-24 w-auto mb-4 filter brightness-0 invert"
             />
             <p className="text-gray-400 mb-4 max-w-md">
               mars.money is a next-generation neo-banking platform partnering with leading Indian banks 

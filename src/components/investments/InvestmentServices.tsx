@@ -1,14 +1,14 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Coins, 
-  TrendingUp,
+  TrendingUp, 
+  Coins,
   Check,
   ArrowRight,
-  Calculator,
-  Calendar
+  Target,
+  Shield,
+  BarChart
 } from "lucide-react";
 
 export const InvestmentServices = () => {
@@ -16,27 +16,21 @@ export const InvestmentServices = () => {
     {
       id: "gold",
       icon: Coins,
-      title: "Gold Investment",
+      title: "Digital Gold",
       partner: "mars.money",
-      description: "Invest in 24K digital gold starting from just ₹1",
+      description: "Invest in 24K pure gold with complete transparency and security",
       benefits: [
-        "Start with just ₹1",
-        "24K pure gold backed",
-        "Instant buy/sell anytime",
-        "No storage hassles",
-        "Real-time gold prices"
+        "24K pure gold investment",
+        "No storage or security concerns",
+        "Start with as low as ₹1",
+        "Real-time gold price tracking",
+        "Instant buy/sell facility"
       ],
       features: [
-        "Digital gold certificates",
         "Physical delivery option",
-        "SIP in gold available",
-        "Tax-efficient investing"
-      ],
-      comparison: [
-        { feature: "Minimum Investment", traditional: "₹10,000+", mars: "₹1" },
-        { feature: "Storage Cost", traditional: "₹500-1000/year", mars: "Free" },
-        { feature: "Liquidity", traditional: "Complex", mars: "Instant" },
-        { feature: "Purity Guarantee", traditional: "Variable", mars: "24K Certified" }
+        "Live market rates",
+        "Zero storage charges",
+        "Secure vault storage"
       ]
     },
     {
@@ -44,187 +38,166 @@ export const InvestmentServices = () => {
       icon: TrendingUp,
       title: "Mutual Funds",
       partner: "mars.money",
-      description: "Direct mutual fund investments with zero commission",
+      description: "Diversified mutual fund investments for wealth creation",
       benefits: [
-        "Zero commission (Direct plans)",
-        "SIP starting ₹500",
-        "One-time investments",
-        "Portfolio diversification",
-        "Professional fund management"
+        "Direct mutual fund plans",
+        "Zero commission investing",
+        "Professional fund management",
+        "SIP starting from ₹500",
+        "Tax-saving ELSS funds"
       ],
       features: [
-        "1000+ fund options",
         "Goal-based investing",
-        "Auto-rebalancing",
-        "Tax-saving funds (ELSS)"
-      ],
-      comparison: [
-        { feature: "Commission", traditional: "1-2.5%", mars: "0%" },
-        { feature: "Minimum SIP", traditional: "₹1000+", mars: "₹500" },
-        { feature: "Fund Options", traditional: "Limited", mars: "1000+" },
-        { feature: "Switching", traditional: "Complex", mars: "One-click" }
+        "Risk profiling",
+        "Portfolio tracking",
+        "Expert recommendations"
       ]
     }
   ];
+
+  const scrollToService = (serviceId: string) => {
+    const element = document.getElementById(serviceId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Investment Solutions
+            Smart Investment Solutions
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Build your wealth with our comprehensive investment platform designed for modern investors
+            Build wealth systematically with our curated investment products
           </p>
         </div>
-        
-        <Tabs defaultValue="gold" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            {services.map((service) => (
-              <TabsTrigger key={service.id} value={service.id} className="text-sm">
-                {service.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+
+        {/* Investment Benefits Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="text-center p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl">
+            <Target className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Goal-Based Investing</h3>
+            <p className="text-gray-600">Plan your investments for specific financial goals</p>
+          </div>
           
-          {services.map((service) => (
-            <TabsContent key={service.id} value={service.id}>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-8">
-                  <Card className="border-0 bg-gradient-to-br from-white to-gray-50">
-                    <CardHeader>
-                      <div className="flex items-center space-x-4 mb-4">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-yellow-500 to-orange-600 flex items-center justify-center">
-                          <service.icon className="h-6 w-6 text-white" />
-                        </div>
-                        <div>
-                          <CardTitle className="text-2xl font-bold text-gray-900">
-                            {service.title}
-                          </CardTitle>
-                          <p className="text-orange-600 font-medium">
-                            Powered by {service.partner}
-                          </p>
-                        </div>
+          <div className="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl">
+            <Shield className="h-12 w-12 text-emerald-600 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Secure & Regulated</h3>
+            <p className="text-gray-600">SEBI regulated platforms with AMC partnerships</p>
+          </div>
+          
+          <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl">
+            <BarChart className="h-12 w-12 text-cyan-600 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Expert Guidance</h3>
+            <p className="text-gray-600">Professional advice and portfolio management</p>
+          </div>
+        </div>
+
+        {/* Sticky Quick Navigation */}
+        <div className="sticky top-20 bg-white/95 backdrop-blur-sm border-b border-gray-200 py-4 mb-16 z-40">
+          <div className="flex flex-wrap justify-center gap-4">
+            {services.map((service) => (
+              <Button
+                key={service.id}
+                variant="outline"
+                onClick={() => scrollToService(service.id)}
+                className="border-purple-200 text-purple-700 hover:bg-purple-50"
+              >
+                {service.title}
+              </Button>
+            ))}
+          </div>
+        </div>
+        
+        {/* Service Sections */}
+        <div className="space-y-20">
+          {services.map((service, index) => (
+            <div key={service.id} id={service.id} className="scroll-mt-32">
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
+                <Card className={`border-0 bg-gradient-to-br from-white to-gray-50 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
+                  <CardHeader>
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
+                        <service.icon className="h-6 w-6 text-white" />
                       </div>
-                      <CardDescription className="text-lg text-gray-600">
-                        {service.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <h4 className="font-semibold text-gray-900 mb-3">Key Benefits</h4>
-                          <ul className="space-y-2">
-                            {service.benefits.map((benefit, index) => (
-                              <li key={index} className="flex items-center space-x-2">
-                                <Check className="h-4 w-4 text-green-500" />
-                                <span className="text-gray-600">{benefit}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        
-                        <div>
-                          <h4 className="font-semibold text-gray-900 mb-3">Features</h4>
-                          <ul className="space-y-2">
-                            {service.features.map((feature, index) => (
-                              <li key={index} className="flex items-center space-x-2">
-                                <ArrowRight className="h-4 w-4 text-orange-500" />
-                                <span className="text-gray-600">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                      <div>
+                        <CardTitle className="text-2xl font-bold text-gray-900">
+                          {service.title}
+                        </CardTitle>
+                        <p className="text-purple-600 font-medium">
+                          Powered by {service.partner}
+                        </p>
                       </div>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="border-0 bg-gradient-to-br from-orange-50 to-yellow-50">
-                    <CardHeader>
-                      <CardTitle className="text-xl font-bold text-gray-900">
-                        Why mars.money is Better
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="overflow-x-auto">
-                        <table className="w-full">
-                          <thead>
-                            <tr className="border-b">
-                              <th className="text-left py-2 font-semibold text-gray-900">Feature</th>
-                              <th className="text-left py-2 font-semibold text-gray-600">Traditional</th>
-                              <th className="text-left py-2 font-semibold text-orange-600">mars.money</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {service.comparison.map((row, index) => (
-                              <tr key={index} className="border-b">
-                                <td className="py-3 font-medium text-gray-900">{row.feature}</td>
-                                <td className="py-3 text-gray-600">{row.traditional}</td>
-                                <td className="py-3 text-orange-600 font-semibold">{row.mars}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-                
-                <div className="space-y-6">
-                  <div className="bg-gradient-to-r from-yellow-500 to-orange-600 p-6 rounded-2xl text-white">
-                    <h3 className="text-xl font-bold mb-4">Start Investing Today</h3>
-                    <p className="mb-6 text-sm">
-                      Begin your investment journey with mars.money and build wealth systematically
-                    </p>
-                    <Button size="lg" className="bg-white text-orange-600 hover:bg-gray-100 w-full mb-4">
-                      Start Investing
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                    <div className="flex items-center space-x-2 text-sm">
-                      <Calculator className="h-4 w-4" />
-                      <span>Use our SIP calculator</span>
                     </div>
+                    <CardDescription className="text-lg text-gray-600">
+                      {service.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-3">Key Benefits</h4>
+                        <ul className="space-y-2">
+                          {service.benefits.map((benefit, benefitIndex) => (
+                            <li key={benefitIndex} className="flex items-center space-x-2">
+                              <Check className="h-4 w-4 text-green-500" />
+                              <span className="text-gray-600">{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-3">Features</h4>
+                        <ul className="space-y-2">
+                          {service.features.map((feature, featureIndex) => (
+                            <li key={featureIndex} className="flex items-center space-x-2">
+                              <ArrowRight className="h-4 w-4 text-purple-500" />
+                              <span className="text-gray-600">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <div className={`flex flex-col justify-center space-y-6 ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
+                  <div className="bg-gradient-to-r from-purple-500 to-pink-600 p-8 rounded-2xl text-white">
+                    <h3 className="text-2xl font-bold mb-4">Start Investing Today</h3>
+                    <p className="mb-6">
+                      Begin your wealth creation journey with mars.money
+                    </p>
+                    <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 w-full">
+                      Start Investing
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
                   </div>
                   
-                  <Card className="border-0">
-                    <CardHeader>
-                      <CardTitle className="text-lg font-bold text-gray-900 flex items-center">
-                        <Calendar className="h-5 w-5 mr-2 text-orange-600" />
-                        Investment Process
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        <div className="flex items-start space-x-3">
-                          <div className="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-semibold mt-0.5">1</div>
-                          <div>
-                            <p className="font-medium text-gray-900">Choose Investment</p>
-                            <p className="text-sm text-gray-600">Select your preferred investment option</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-3">
-                          <div className="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-semibold mt-0.5">2</div>
-                          <div>
-                            <p className="font-medium text-gray-900">Set Amount</p>
-                            <p className="text-sm text-gray-600">Choose one-time or SIP investment</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-3">
-                          <div className="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-semibold mt-0.5">3</div>
-                          <div>
-                            <p className="font-medium text-gray-900">Start Investing</p>
-                            <p className="text-sm text-gray-600">Begin building your wealth</p>
-                          </div>
-                        </div>
+                  <div className="bg-gray-50 p-6 rounded-xl">
+                    <h4 className="font-semibold text-gray-900 mb-2">Quick Process</h4>
+                    <div className="space-y-2 text-sm text-gray-600">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-6 h-6 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-xs font-semibold">1</div>
+                        <span>Complete KYC verification</span>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-6 h-6 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-xs font-semibold">2</div>
+                        <span>Choose investment amount</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-6 h-6 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-xs font-semibold">3</div>
+                        <span>Start investing instantly</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </TabsContent>
+            </div>
           ))}
-        </Tabs>
+        </div>
       </div>
     </section>
   );

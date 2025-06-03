@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -134,24 +133,26 @@ export const BankingServices = () => {
           </p>
         </div>
 
-        {/* Quick Navigation */}
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
-          {services.map((service) => (
-            <Button
-              key={service.id}
-              variant="outline"
-              onClick={() => scrollToService(service.id)}
-              className="border-purple-200 text-purple-700 hover:bg-purple-50"
-            >
-              {service.title}
-            </Button>
-          ))}
+        {/* Sticky Quick Navigation */}
+        <div className="sticky top-20 bg-white/95 backdrop-blur-sm border-b border-gray-200 py-4 mb-16 z-40">
+          <div className="flex flex-wrap justify-center gap-4">
+            {services.map((service) => (
+              <Button
+                key={service.id}
+                variant="outline"
+                onClick={() => scrollToService(service.id)}
+                className="border-purple-200 text-purple-700 hover:bg-purple-50"
+              >
+                {service.title}
+              </Button>
+            ))}
+          </div>
         </div>
         
         {/* Service Sections */}
         <div className="space-y-20">
           {services.map((service, index) => (
-            <div key={service.id} id={service.id} className="scroll-mt-8">
+            <div key={service.id} id={service.id} className="scroll-mt-32">
               <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
                 <Card className={`border-0 bg-gradient-to-br from-white to-gray-50 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <CardHeader>
