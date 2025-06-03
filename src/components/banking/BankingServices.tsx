@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   PiggyBank, 
   Building2, 
@@ -116,6 +115,13 @@ export const BankingServices = () => {
     }
   ];
 
+  const scrollToService = (serviceId: string) => {
+    const element = document.getElementById(serviceId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,20 +133,27 @@ export const BankingServices = () => {
             From basic savings to advanced financial management, we've got all your banking needs covered
           </p>
         </div>
-        
-        <Tabs defaultValue="savings" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 mb-8">
-            {services.map((service) => (
-              <TabsTrigger key={service.id} value={service.id} className="text-sm">
-                {service.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          
+
+        {/* Quick Navigation */}
+        <div className="flex flex-wrap justify-center gap-4 mb-16">
           {services.map((service) => (
-            <TabsContent key={service.id} value={service.id}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <Card className="border-0 bg-gradient-to-br from-white to-gray-50">
+            <Button
+              key={service.id}
+              variant="outline"
+              onClick={() => scrollToService(service.id)}
+              className="border-purple-200 text-purple-700 hover:bg-purple-50"
+            >
+              {service.title}
+            </Button>
+          ))}
+        </div>
+        
+        {/* Service Sections */}
+        <div className="space-y-20">
+          {services.map((service, index) => (
+            <div key={service.id} id={service.id} className="scroll-mt-8">
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
+                <Card className={`border-0 bg-gradient-to-br from-white to-gray-50 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <CardHeader>
                     <div className="flex items-center space-x-4 mb-4">
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
@@ -164,8 +177,8 @@ export const BankingServices = () => {
                       <div>
                         <h4 className="font-semibold text-gray-900 mb-3">Key Benefits</h4>
                         <ul className="space-y-2">
-                          {service.benefits.map((benefit, index) => (
-                            <li key={index} className="flex items-center space-x-2">
+                          {service.benefits.map((benefit, benefitIndex) => (
+                            <li key={benefitIndex} className="flex items-center space-x-2">
                               <Check className="h-4 w-4 text-green-500" />
                               <span className="text-gray-600">{benefit}</span>
                             </li>
@@ -176,8 +189,8 @@ export const BankingServices = () => {
                       <div>
                         <h4 className="font-semibold text-gray-900 mb-3">Features</h4>
                         <ul className="space-y-2">
-                          {service.features.map((feature, index) => (
-                            <li key={index} className="flex items-center space-x-2">
+                          {service.features.map((feature, featureIndex) => (
+                            <li key={featureIndex} className="flex items-center space-x-2">
                               <ArrowRight className="h-4 w-4 text-purple-500" />
                               <span className="text-gray-600">{feature}</span>
                             </li>
@@ -188,7 +201,7 @@ export const BankingServices = () => {
                   </CardContent>
                 </Card>
                 
-                <div className="flex flex-col justify-center space-y-6">
+                <div className={`flex flex-col justify-center space-y-6 ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
                   <div className="bg-gradient-to-r from-purple-500 to-pink-600 p-8 rounded-2xl text-white">
                     <h3 className="text-2xl font-bold mb-4">Ready to get started?</h3>
                     <p className="mb-6">
@@ -219,9 +232,9 @@ export const BankingServices = () => {
                   </div>
                 </div>
               </div>
-            </TabsContent>
+            </div>
           ))}
-        </Tabs>
+        </div>
       </div>
     </section>
   );
