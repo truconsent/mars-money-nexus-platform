@@ -8,9 +8,9 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-1 md:col-span-2">
             <img 
-              src="/lovable-uploads/eb39d5b7-edd4-4395-a6cf-ad518b7a01ce.png" 
+              src="/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png" 
               alt="mars.money" 
-              className="h-24 w-auto mb-4 filter brightness-0 invert"
+              className="h-24 w-auto mb-4"
             />
             <p className="text-gray-400 mb-4 max-w-md">
               mars.money is a next-generation neo-banking platform partnering with leading Indian banks 
