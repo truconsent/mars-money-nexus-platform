@@ -1,7 +1,8 @@
 
 import { Hero } from "@/components/Hero";
 import { Navigation } from "@/components/Navigation";
-import { ServicesGrid } from "@/components/ServicesGrid";
+import { AdvantagesSection } from "@/components/AdvantagesSection";
+import { PartnerSection } from "@/components/PartnerSection";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -9,7 +10,8 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50">
       <Navigation />
       <Hero />
-      <ServicesGrid />
+      <AdvantagesSection />
+      <PartnerSection />
       <Footer />
     </div>
   );

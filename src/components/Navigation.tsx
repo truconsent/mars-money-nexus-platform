@@ -1,7 +1,8 @@
 
 import { Button } from "@/components/ui/button";
-import { User, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,27 +12,29 @@ export const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <img 
-              src="/lovable-uploads/eb39d5b7-edd4-4395-a6cf-ad518b7a01ce.png" 
-              alt="mars.money" 
-              className="h-8 w-auto"
-            />
+            <Link to="/">
+              <img 
+                src="/lovable-uploads/eb39d5b7-edd4-4395-a6cf-ad518b7a01ce.png" 
+                alt="mars.money" 
+                className="h-12 w-auto"
+              />
+            </Link>
           </div>
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              <Link to="/banking" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Banking
-              </a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              </Link>
+              <Link to="/investments" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Investments
-              </a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              </Link>
+              <Link to="/loans" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Loans
-              </a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                UPI
-              </a>
+              </Link>
+              <Link to="/about" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                About
+              </Link>
             </div>
           </div>
 
@@ -60,18 +63,18 @@ export const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white rounded-lg mt-2 shadow-lg">
-              <a href="#" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
+              <Link to="/banking" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
                 Banking
-              </a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
+              </Link>
+              <Link to="/investments" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
                 Investments
-              </a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
+              </Link>
+              <Link to="/loans" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
                 Loans
-              </a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
-                UPI
-              </a>
+              </Link>
+              <Link to="/about" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
+                About
+              </Link>
               <div className="pt-4 pb-3 border-t border-gray-200">
                 <div className="flex flex-col space-y-2">
                   <Button variant="outline" className="border-purple-200 text-purple-700">

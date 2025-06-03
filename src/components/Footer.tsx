@@ -1,5 +1,6 @@
 
 import { Separator } from "@/components/ui/separator";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -10,7 +11,7 @@ export const Footer = () => {
             <img 
               src="/lovable-uploads/eb39d5b7-edd4-4395-a6cf-ad518b7a01ce.png" 
               alt="mars.money" 
-              className="h-8 w-auto mb-4 filter brightness-0 invert"
+              className="h-12 w-auto mb-4 filter brightness-0 invert"
             />
             <p className="text-gray-400 mb-4 max-w-md">
               mars.money is a next-generation neo-banking platform partnering with leading Indian banks 
@@ -24,22 +25,21 @@ export const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Services</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Savings Account</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Salary Account</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">UPI Payments</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Credit Cards</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Investments</a></li>
+              <li><Link to="/banking" className="hover:text-white transition-colors">Banking</Link></li>
+              <li><Link to="/investments" className="hover:text-white transition-colors">Investments</Link></li>
+              <li><Link to="/loans" className="hover:text-white transition-colors">Loans</Link></li>
+              <li><Link to="/support" className="hover:text-white transition-colors">Support</Link></li>
             </ul>
           </div>
           
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Support</a></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link to="/support" className="hover:text-white transition-colors">Support</Link></li>
             </ul>
           </div>
         </div>
