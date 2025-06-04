@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -7,15 +8,40 @@ import {
   BarChart3, 
   CreditCard,
   Check,
-  ArrowRight
+  ArrowRight,
+  User
 } from "lucide-react";
 import { useState } from "react";
 import { SavingsAccountForm } from "./SavingsAccountForm";
+import { UserRegistrationForm } from "./UserRegistrationForm";
+import { CreditCardForm } from "./CreditCardForm";
 
 export const BankingServices = () => {
   const [showSavingsForm, setShowSavingsForm] = useState(false);
+  const [showUserRegistrationForm, setShowUserRegistrationForm] = useState(false);
+  const [showCreditCardForm, setShowCreditCardForm] = useState(false);
 
   const services = [
+    {
+      id: "registration",
+      icon: User,
+      title: "User Registration",
+      partner: "mars.money",
+      description: "Quick and secure user registration for platform access",
+      benefits: [
+        "Instant account creation",
+        "Secure authentication",
+        "Profile management",
+        "Access to all services",
+        "24/7 support access"
+      ],
+      features: [
+        "Email verification",
+        "Mobile OTP validation",
+        "Document verification",
+        "Multi-factor authentication"
+      ]
+    },
     {
       id: "savings",
       icon: PiggyBank,
@@ -34,6 +60,26 @@ export const BankingServices = () => {
         "Mobile & internet banking",
         "UPI integration",
         "ATM access nationwide"
+      ]
+    },
+    {
+      id: "credit",
+      icon: CreditCard,
+      title: "Credit Cards",
+      partner: "Catholic Syrian Bank",
+      description: "Premium credit cards with rewards and benefits",
+      benefits: [
+        "Cashback on all purchases",
+        "Reward points system",
+        "Airport lounge access",
+        "Zero annual fees",
+        "Travel insurance"
+      ],
+      features: [
+        "Contactless payments",
+        "EMI conversion facility",
+        "Credit limit enhancement",
+        "International acceptance"
       ]
     },
     {
@@ -95,26 +141,6 @@ export const BankingServices = () => {
         "Secure data encryption",
         "Customizable dashboard"
       ]
-    },
-    {
-      id: "credit",
-      icon: CreditCard,
-      title: "Credit Cards",
-      partner: "Catholic Syrian Bank",
-      description: "Premium credit cards with rewards and benefits",
-      benefits: [
-        "Cashback on all purchases",
-        "Reward points system",
-        "Airport lounge access",
-        "Zero annual fees",
-        "Travel insurance"
-      ],
-      features: [
-        "Contactless payments",
-        "EMI conversion facility",
-        "Credit limit enhancement",
-        "International acceptance"
-      ]
     }
   ];
 
@@ -128,6 +154,10 @@ export const BankingServices = () => {
   const handleApplyClick = (serviceId: string) => {
     if (serviceId === 'savings') {
       setShowSavingsForm(true);
+    } else if (serviceId === 'registration') {
+      setShowUserRegistrationForm(true);
+    } else if (serviceId === 'credit') {
+      setShowCreditCardForm(true);
     } else {
       alert('Application form coming soon for this service!');
     }
@@ -256,9 +286,15 @@ export const BankingServices = () => {
         </div>
       </section>
 
-      {/* Savings Account Form Modal */}
+      {/* Form Modals */}
       {showSavingsForm && (
         <SavingsAccountForm onClose={() => setShowSavingsForm(false)} />
+      )}
+      {showUserRegistrationForm && (
+        <UserRegistrationForm onClose={() => setShowUserRegistrationForm(false)} />
+      )}
+      {showCreditCardForm && (
+        <CreditCardForm onClose={() => setShowCreditCardForm(false)} />
       )}
     </>
   );
