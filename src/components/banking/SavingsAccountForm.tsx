@@ -21,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PiggyBank, X } from "lucide-react";
 
@@ -30,6 +29,9 @@ const formSchema = z.object({
   panNumber: z
     .string()
     .regex(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Please enter a valid PAN number (e.g., ABCDE1234F)"),
+  aadharNumber: z
+    .string()
+    .regex(/^\d{12}$/, "Please enter a valid 12-digit Aadhar number"),
   gender: z.string().min(1, "Please select your gender"),
   dateOfBirth: z.string().min(1, "Please enter your date of birth"),
   emailAddress: z.string().email("Please enter a valid email address"),
@@ -37,18 +39,6 @@ const formSchema = z.object({
     .string()
     .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number"),
   address: z.string().min(10, "Please enter your complete address"),
-  aadharNumber: z
-    .string()
-    .regex(/^\d{12}$/, "Please enter a valid 12-digit Aadhar number"),
-  kycConsent: z.boolean().refine((val) => val === true, {
-    message: "You must accept KYC compliance requirements",
-  }),
-  notificationConsent: z.boolean().refine((val) => val === true, {
-    message: "You must accept notifications and updates",
-  }),
-  userAuthConsent: z.boolean().refine((val) => val === true, {
-    message: "You must accept user authentication and management terms",
-  }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -63,15 +53,12 @@ export const SavingsAccountForm = ({ onClose }: SavingsAccountFormProps) => {
     defaultValues: {
       name: "",
       panNumber: "",
+      aadharNumber: "",
       gender: "",
       dateOfBirth: "",
       emailAddress: "",
       mobileNumber: "",
       address: "",
-      aadharNumber: "",
-      kycConsent: false,
-      notificationConsent: false,
-      userAuthConsent: false,
     },
   });
 
@@ -95,7 +82,7 @@ export const SavingsAccountForm = ({ onClose }: SavingsAccountFormProps) => {
                 Savings Account Application
               </CardTitle>
               <CardDescription>
-                Powered by Federal Bank • Complete KYC form
+                Powered by Federal Bank • Complete application form
               </CardDescription>
             </div>
           </div>
@@ -130,45 +117,6 @@ export const SavingsAccountForm = ({ onClose }: SavingsAccountFormProps) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="panNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>PAN Number *</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="ABCDE1234F" 
-                            {...field}
-                            style={{ textTransform: 'uppercase' }}
-                            onChange={(e) => field.onChange(e.target.value.toUpperCase())}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="aadharNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Aadhar Number *</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="123456789012" 
-                            {...field}
-                            maxLength={12}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
                     name="gender"
                     render={({ field }) => (
                       <FormItem>
@@ -198,6 +146,52 @@ export const SavingsAccountForm = ({ onClose }: SavingsAccountFormProps) => {
                         <FormLabel>Date of Birth *</FormLabel>
                         <FormControl>
                           <Input type="date" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Identity Verification */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  Identity Verification
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="panNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>PAN Number *</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="ABCDE1234F" 
+                            {...field}
+                            style={{ textTransform: 'uppercase' }}
+                            onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="aadharNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Aadhar Number *</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="123456789012" 
+                            {...field}
+                            maxLength={12}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -263,87 +257,6 @@ export const SavingsAccountForm = ({ onClose }: SavingsAccountFormProps) => {
                     </FormItem>
                   )}
                 />
-              </div>
-
-              {/* Consent Management */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
-                  Consent Management (CP003)
-                </h3>
-                
-                <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
-                  <FormField
-                    control={form.control}
-                    name="kycConsent"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel className="text-sm font-medium">
-                            KYC Compliance (Mandatory) *
-                          </FormLabel>
-                          <p className="text-xs text-gray-600">
-                            I consent to fulfill regulatory KYC requirements for account opening with Federal Bank.
-                          </p>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="notificationConsent"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel className="text-sm font-medium">
-                            Notifications & Updates (Mandatory) *
-                          </FormLabel>
-                          <p className="text-xs text-gray-600">
-                            I consent to receive transactional and service-related updates via email and mobile.
-                          </p>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="userAuthConsent"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel className="text-sm font-medium">
-                            User Authentication & Management (Mandatory) *
-                          </FormLabel>
-                          <p className="text-xs text-gray-600">
-                            I consent to account creation and access management for savings account maintenance.
-                          </p>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
               </div>
 
               <div className="flex gap-4 pt-4">
