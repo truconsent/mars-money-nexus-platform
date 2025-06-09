@@ -1,74 +1,82 @@
 
 import { 
   PiggyBank, 
-  Building2, 
-  Smartphone, 
+  CreditCard, 
+  Briefcase, 
   BarChart3, 
-  CreditCard,
-  TrendingUp,
-  Banknote,
-  Target
+  TrendingUp, 
+  Wallet, 
+  HandCoins, 
+  Building2 
 } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
-export const services = [
+export interface Service {
+  id: string;
+  icon: LucideIcon;
+  title: string;
+  partner: string;
+  description: string;
+  benefits: string[];
+  features: string[];
+}
+
+export const services: Service[] = [
   {
     id: "savings",
     icon: PiggyBank,
     title: "Savings Account",
     partner: "Federal Bank",
-    description: "High-yield savings account with competitive interest rates",
+    description: "Start your savings journey with zero balance accounts and attractive interest rates",
     benefits: [
-      "Up to 7% interest rate",
-      "Zero balance requirement",
+      "Zero minimum balance",
+      "Up to 6% interest rate",
       "Free debit card",
-      "Unlimited transactions",
-      "24/7 customer support"
+      "24/7 digital banking"
     ],
     features: [
       "Instant account opening",
-      "Mobile & internet banking",
-      "UPI integration",
-      "ATM access nationwide"
+      "Mobile banking app",
+      "ATM access nationwide",
+      "Online fund transfers"
     ]
   },
   {
     id: "salary",
-    icon: Building2,
+    icon: Briefcase,
     title: "Salary Account",
     partner: "Federal Bank",
-    description: "Corporate salary accounts with exclusive benefits",
+    description: "Dedicated salary accounts for corporate employees with exclusive benefits",
     benefits: [
-      "Zero maintenance charges",
+      "Zero charges on all transactions",
       "Higher interest rates",
-      "Priority customer service",
-      "Exclusive offers & discounts",
-      "Easy loan approvals"
+      "Overdraft facility",
+      "Corporate tie-up benefits"
     ],
     features: [
-      "Instant salary credit",
-      "Corporate banking portal",
-      "Bulk transaction facility",
-      "Dedicated relationship manager"
+      "Salary credit alerts",
+      "Expense tracking",
+      "Investment options",
+      "Insurance coverage"
     ]
   },
   {
     id: "credit",
     icon: CreditCard,
-    title: "Credit Cards",
-    partner: "Catholic Syrian Bank",
-    description: "Premium credit cards with rewards and benefits",
+    title: "Credit Card",
+    partner: "Federal Bank",
+    description: "Premium credit cards with rewards, cashback, and exclusive privileges",
     benefits: [
-      "Cashback on all purchases",
-      "Reward points system",
+      "Up to 5% cashback",
+      "Reward points on every spend",
       "Airport lounge access",
-      "Zero annual fees",
-      "Travel insurance"
+      "Zero joining fee"
     ],
     features: [
       "Contactless payments",
-      "EMI conversion facility",
-      "Credit limit enhancement",
-      "International acceptance"
+      "EMI conversion",
+      "Travel insurance",
+      "Purchase protection"
     ]
   },
   {
@@ -76,119 +84,94 @@ export const services = [
     icon: BarChart3,
     title: "Unified Financial Overview",
     partner: "mars.money",
-    description: "Track all your bank accounts and manage expenses in one place",
+    description: "Get a complete view of all your accounts and expenses in one place",
     benefits: [
-      "Multi-bank account view",
+      "Account aggregation",
       "Expense categorization",
-      "Financial insights",
-      "Budget planning tools",
-      "Investment tracking"
+      "Budget planning",
+      "Financial insights"
     ],
     features: [
-      "Real-time data sync",
-      "AI-powered analytics",
-      "Secure data encryption",
-      "Customizable dashboard"
+      "Multi-bank integration",
+      "Spending analytics",
+      "Goal tracking",
+      "Report generation"
     ]
   },
   {
     id: "demat",
     icon: TrendingUp,
-    title: "Demat & Mutual Funds",
-    partner: "mars.money",
-    description: "Start your investment journey with demat account and mutual funds",
+    title: "Demat Account",
+    partner: "Zerodha",
+    description: "Start your investment journey with a free demat account and low brokerage",
     benefits: [
       "Zero account opening charges",
-      "Wide range of mutual funds",
-      "SIP facility available",
-      "Expert advisory support",
-      "Real-time portfolio tracking"
+      "Low brokerage rates",
+      "Research reports",
+      "24/7 support"
     ],
     features: [
-      "Paperless account opening",
-      "Mobile trading app",
-      "Research reports",
-      "Tax saving funds"
+      "Stock trading",
+      "Mutual fund investments",
+      "IPO applications",
+      "Portfolio tracking"
     ]
   },
   {
     id: "fixed-deposit",
-    icon: Target,
+    icon: Wallet,
     title: "Fixed Deposit",
     partner: "Federal Bank",
-    description: "Secure your money with attractive fixed deposit rates",
+    description: "Secure your money with guaranteed returns through fixed deposits",
     benefits: [
-      "High interest rates up to 8%",
+      "Attractive interest rates",
       "Flexible tenure options",
-      "Loan against FD facility",
-      "Auto-renewal option",
-      "Premature withdrawal"
+      "Auto-renewal facility",
+      "Loan against FD"
     ],
     features: [
       "Online FD booking",
-      "Digital FD certificates",
+      "Premature withdrawal",
       "Interest payout options",
-      "Senior citizen benefits"
+      "Tax saving FDs"
     ]
   },
   {
     id: "personal-loan",
-    icon: Banknote,
+    icon: HandCoins,
     title: "Personal Loan",
     partner: "Federal Bank",
     description: "Quick personal loans for your immediate financial needs",
     benefits: [
-      "Instant approval up to ₹50 Lakhs",
+      "Quick approval process",
       "Competitive interest rates",
-      "Flexible repayment tenure",
-      "Minimal documentation",
-      "Quick disbursal"
+      "Flexible repayment",
+      "Minimal documentation"
     ],
     features: [
+      "Instant eligibility check",
       "Online application",
-      "Pre-approved offers",
-      "EMI calculator",
-      "Part payment facility"
+      "Same day disbursal",
+      "No collateral required"
     ]
   },
   {
     id: "loan-against-mf",
-    icon: TrendingUp,
+    icon: Building2,
     title: "Loan Against Mutual Funds",
-    partner: "mars.money",
-    description: "Get instant loans against your mutual fund investments",
+    partner: "Federal Bank",
+    description: "Get instant liquidity against your mutual fund investments",
     benefits: [
-      "Up to 70% of portfolio value",
       "Lower interest rates",
-      "No processing fees",
+      "No need to redeem MFs",
+      "Quick processing",
+      "Flexible repayment"
+    ],
+    features: [
+      "Online application",
+      "Instant approval",
       "Continue earning returns",
-      "Instant approval"
-    ],
-    features: [
-      "Online pledging process",
-      "Flexible repayment",
-      "Portfolio-based limit",
-      "Quick fund access"
-    ]
-  },
-  {
-    id: "upi",
-    icon: Smartphone,
-    title: "UPI Payments",
-    partner: "mars.money",
-    description: "Fast, secure digital payments and money transfers",
-    benefits: [
-      "Instant money transfers",
-      "Bill payment facility",
-      "Merchant payments",
-      "QR code scanning",
-      "Transaction history"
-    ],
-    features: [
-      "24/7 availability",
-      "Bank-grade security",
-      "Multiple UPI IDs",
-      "Offline transaction capability"
+      "Easy repayment options"
     ]
   }
 ];
