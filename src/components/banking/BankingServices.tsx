@@ -9,39 +9,31 @@ import {
   CreditCard,
   Check,
   ArrowRight,
-  User
+  TrendingUp,
+  Banknote,
+  Target
 } from "lucide-react";
 import { useState } from "react";
 import { SavingsAccountForm } from "./SavingsAccountForm";
-import { UserRegistrationForm } from "./UserRegistrationForm";
 import { CreditCardForm } from "./CreditCardForm";
+import { SalaryAccountForm } from "./SalaryAccountForm";
+import { FinancialOverviewForm } from "./FinancialOverviewForm";
+import { DematAccountForm } from "./DematAccountForm";
+import { FixedDepositForm } from "./FixedDepositForm";
+import { PersonalLoanForm } from "./PersonalLoanForm";
+import { LoanAgainstMFForm } from "./LoanAgainstMFForm";
 
 export const BankingServices = () => {
   const [showSavingsForm, setShowSavingsForm] = useState(false);
-  const [showUserRegistrationForm, setShowUserRegistrationForm] = useState(false);
   const [showCreditCardForm, setShowCreditCardForm] = useState(false);
+  const [showSalaryForm, setShowSalaryForm] = useState(false);
+  const [showFinancialOverviewForm, setShowFinancialOverviewForm] = useState(false);
+  const [showDematForm, setShowDematForm] = useState(false);
+  const [showFixedDepositForm, setShowFixedDepositForm] = useState(false);
+  const [showPersonalLoanForm, setShowPersonalLoanForm] = useState(false);
+  const [showLoanAgainstMFForm, setShowLoanAgainstMFForm] = useState(false);
 
   const services = [
-    {
-      id: "registration",
-      icon: User,
-      title: "User Registration",
-      partner: "mars.money",
-      description: "Quick and secure user registration for platform access",
-      benefits: [
-        "Instant account creation",
-        "Secure authentication",
-        "Profile management",
-        "Access to all services",
-        "24/7 support access"
-      ],
-      features: [
-        "Email verification",
-        "Mobile OTP validation",
-        "Document verification",
-        "Multi-factor authentication"
-      ]
-    },
     {
       id: "savings",
       icon: PiggyBank,
@@ -60,26 +52,6 @@ export const BankingServices = () => {
         "Mobile & internet banking",
         "UPI integration",
         "ATM access nationwide"
-      ]
-    },
-    {
-      id: "credit",
-      icon: CreditCard,
-      title: "Credit Cards",
-      partner: "Catholic Syrian Bank",
-      description: "Premium credit cards with rewards and benefits",
-      benefits: [
-        "Cashback on all purchases",
-        "Reward points system",
-        "Airport lounge access",
-        "Zero annual fees",
-        "Travel insurance"
-      ],
-      features: [
-        "Contactless payments",
-        "EMI conversion facility",
-        "Credit limit enhancement",
-        "International acceptance"
       ]
     },
     {
@@ -103,6 +75,126 @@ export const BankingServices = () => {
       ]
     },
     {
+      id: "credit",
+      icon: CreditCard,
+      title: "Credit Cards",
+      partner: "Catholic Syrian Bank",
+      description: "Premium credit cards with rewards and benefits",
+      benefits: [
+        "Cashback on all purchases",
+        "Reward points system",
+        "Airport lounge access",
+        "Zero annual fees",
+        "Travel insurance"
+      ],
+      features: [
+        "Contactless payments",
+        "EMI conversion facility",
+        "Credit limit enhancement",
+        "International acceptance"
+      ]
+    },
+    {
+      id: "financial-overview",
+      icon: BarChart3,
+      title: "Unified Financial Overview",
+      partner: "mars.money",
+      description: "Track all your bank accounts and manage expenses in one place",
+      benefits: [
+        "Multi-bank account view",
+        "Expense categorization",
+        "Financial insights",
+        "Budget planning tools",
+        "Investment tracking"
+      ],
+      features: [
+        "Real-time data sync",
+        "AI-powered analytics",
+        "Secure data encryption",
+        "Customizable dashboard"
+      ]
+    },
+    {
+      id: "demat",
+      icon: TrendingUp,
+      title: "Demat & Mutual Funds",
+      partner: "mars.money",
+      description: "Start your investment journey with demat account and mutual funds",
+      benefits: [
+        "Zero account opening charges",
+        "Wide range of mutual funds",
+        "SIP facility available",
+        "Expert advisory support",
+        "Real-time portfolio tracking"
+      ],
+      features: [
+        "Paperless account opening",
+        "Mobile trading app",
+        "Research reports",
+        "Tax saving funds"
+      ]
+    },
+    {
+      id: "fixed-deposit",
+      icon: Target,
+      title: "Fixed Deposit",
+      partner: "Federal Bank",
+      description: "Secure your money with attractive fixed deposit rates",
+      benefits: [
+        "High interest rates up to 8%",
+        "Flexible tenure options",
+        "Loan against FD facility",
+        "Auto-renewal option",
+        "Premature withdrawal"
+      ],
+      features: [
+        "Online FD booking",
+        "Digital FD certificates",
+        "Interest payout options",
+        "Senior citizen benefits"
+      ]
+    },
+    {
+      id: "personal-loan",
+      icon: Banknote,
+      title: "Personal Loan",
+      partner: "Federal Bank",
+      description: "Quick personal loans for your immediate financial needs",
+      benefits: [
+        "Instant approval up to ₹50 Lakhs",
+        "Competitive interest rates",
+        "Flexible repayment tenure",
+        "Minimal documentation",
+        "Quick disbursal"
+      ],
+      features: [
+        "Online application",
+        "Pre-approved offers",
+        "EMI calculator",
+        "Part payment facility"
+      ]
+    },
+    {
+      id: "loan-against-mf",
+      icon: TrendingUp,
+      title: "Loan Against Mutual Funds",
+      partner: "mars.money",
+      description: "Get instant loans against your mutual fund investments",
+      benefits: [
+        "Up to 70% of portfolio value",
+        "Lower interest rates",
+        "No processing fees",
+        "Continue earning returns",
+        "Instant approval"
+      ],
+      features: [
+        "Online pledging process",
+        "Flexible repayment",
+        "Portfolio-based limit",
+        "Quick fund access"
+      ]
+    },
+    {
       id: "upi",
       icon: Smartphone,
       title: "UPI Payments",
@@ -121,26 +213,6 @@ export const BankingServices = () => {
         "Multiple UPI IDs",
         "Offline transaction capability"
       ]
-    },
-    {
-      id: "aggregator",
-      icon: BarChart3,
-      title: "Account Aggregator",
-      partner: "mars.money",
-      description: "Track all your bank accounts in one place",
-      benefits: [
-        "Multi-bank account view",
-        "Expense categorization",
-        "Financial insights",
-        "Budget planning tools",
-        "Investment tracking"
-      ],
-      features: [
-        "Real-time data sync",
-        "AI-powered analytics",
-        "Secure data encryption",
-        "Customizable dashboard"
-      ]
     }
   ];
 
@@ -152,14 +224,33 @@ export const BankingServices = () => {
   };
 
   const handleApplyClick = (serviceId: string) => {
-    if (serviceId === 'savings') {
-      setShowSavingsForm(true);
-    } else if (serviceId === 'registration') {
-      setShowUserRegistrationForm(true);
-    } else if (serviceId === 'credit') {
-      setShowCreditCardForm(true);
-    } else {
-      alert('Application form coming soon for this service!');
+    switch (serviceId) {
+      case 'savings':
+        setShowSavingsForm(true);
+        break;
+      case 'salary':
+        setShowSalaryForm(true);
+        break;
+      case 'credit':
+        setShowCreditCardForm(true);
+        break;
+      case 'financial-overview':
+        setShowFinancialOverviewForm(true);
+        break;
+      case 'demat':
+        setShowDematForm(true);
+        break;
+      case 'fixed-deposit':
+        setShowFixedDepositForm(true);
+        break;
+      case 'personal-loan':
+        setShowPersonalLoanForm(true);
+        break;
+      case 'loan-against-mf':
+        setShowLoanAgainstMFForm(true);
+        break;
+      default:
+        alert('Application form coming soon for this service!');
     }
   };
 
@@ -290,11 +381,26 @@ export const BankingServices = () => {
       {showSavingsForm && (
         <SavingsAccountForm onClose={() => setShowSavingsForm(false)} />
       )}
-      {showUserRegistrationForm && (
-        <UserRegistrationForm onClose={() => setShowUserRegistrationForm(false)} />
-      )}
       {showCreditCardForm && (
         <CreditCardForm onClose={() => setShowCreditCardForm(false)} />
+      )}
+      {showSalaryForm && (
+        <SalaryAccountForm onClose={() => setShowSalaryForm(false)} />
+      )}
+      {showFinancialOverviewForm && (
+        <FinancialOverviewForm onClose={() => setShowFinancialOverviewForm(false)} />
+      )}
+      {showDematForm && (
+        <DematAccountForm onClose={() => setShowDematForm(false)} />
+      )}
+      {showFixedDepositForm && (
+        <FixedDepositForm onClose={() => setShowFixedDepositForm(false)} />
+      )}
+      {showPersonalLoanForm && (
+        <PersonalLoanForm onClose={() => setShowPersonalLoanForm(false)} />
+      )}
+      {showLoanAgainstMFForm && (
+        <LoanAgainstMFForm onClose={() => setShowLoanAgainstMFForm(false)} />
       )}
     </>
   );
