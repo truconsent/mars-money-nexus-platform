@@ -2,7 +2,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import * z from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, X } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -41,10 +41,10 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 interface LoanAgainstMFFormProps {
-  onClose: () => void;
+  onBack: () => void;
 }
 
-export const LoanAgainstMFForm = ({ onClose }: LoanAgainstMFFormProps) => {
+export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,40 +62,37 @@ export const LoanAgainstMFForm = ({ onClose }: LoanAgainstMFFormProps) => {
   const onSubmit = (data: FormData) => {
     console.log("Loan Against MF Form submitted:", data);
     alert("Loan against mutual funds application submitted successfully! We will process your request and get back to you soon.");
-    onClose();
+    onBack();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center">
-              <TrendingUp className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <CardTitle className="text-2xl font-bold text-gray-900">
-                Loan Against Mutual Funds
-              </CardTitle>
-              <CardDescription>
-                Powered by mars.money • Get instant loans against your MF portfolio
-              </CardDescription>
-            </div>
+    <Card className="w-full max-w-4xl mx-auto">
+      <CardHeader>
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center">
+            <TrendingUp className="h-6 w-6 text-white" />
           </div>
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            <X className="h-4 w-4" />
-          </Button>
-        </CardHeader>
-        
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Personal Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
-                  Personal Information
-                </h3>
-                
+          <div>
+            <CardTitle className="text-2xl font-bold text-gray-900">
+              Loan Against Mutual Funds
+            </CardTitle>
+            <CardDescription>
+              Powered by mars.money • Get instant loans against your MF portfolio
+            </CardDescription>
+          </div>
+        </div>
+      </CardHeader>
+      
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {/* Personal Information */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
+                Personal Information
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="name"
@@ -129,163 +126,159 @@ export const LoanAgainstMFForm = ({ onClose }: LoanAgainstMFFormProps) => {
                   )}
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="emailAddress"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Address *</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="your.email@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="emailAddress"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address *</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="your.email@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="mobileNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Mobile Number *</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="9876543210" 
-                            {...field}
-                            maxLength={10}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="mobileNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mobile Number *</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="9876543210" 
+                          {...field}
+                          maxLength={10}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
+            </div>
 
-              {/* Portfolio & Loan Details */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
-                  Portfolio & Loan Information
-                </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="portfolioValue"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Total Portfolio Value *</FormLabel>
+            {/* Portfolio & Loan Details */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
+                Portfolio & Loan Information
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="portfolioValue"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Total Portfolio Value *</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="number" 
+                          placeholder="Current market value" 
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="loanAmount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Required Loan Amount *</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="number" 
+                          placeholder="Up to 70% of portfolio" 
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="loanPurpose"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Loan Purpose *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <Input 
-                            type="number" 
-                            placeholder="Current market value" 
-                            {...field}
-                          />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select loan purpose" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                        <SelectContent>
+                          <SelectItem value="emergency">Emergency Fund</SelectItem>
+                          <SelectItem value="medical">Medical Expenses</SelectItem>
+                          <SelectItem value="education">Education</SelectItem>
+                          <SelectItem value="business">Business Investment</SelectItem>
+                          <SelectItem value="home-improvement">Home Improvement</SelectItem>
+                          <SelectItem value="debt-consolidation">Debt Consolidation</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="loanAmount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Required Loan Amount *</FormLabel>
+                <FormField
+                  control={form.control}
+                  name="repaymentTenure"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Repayment Tenure *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <Input 
-                            type="number" 
-                            placeholder="Up to 70% of portfolio" 
-                            {...field}
-                          />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select tenure" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="loanPurpose"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Loan Purpose *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select loan purpose" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="emergency">Emergency Fund</SelectItem>
-                            <SelectItem value="medical">Medical Expenses</SelectItem>
-                            <SelectItem value="education">Education</SelectItem>
-                            <SelectItem value="business">Business Investment</SelectItem>
-                            <SelectItem value="home-improvement">Home Improvement</SelectItem>
-                            <SelectItem value="debt-consolidation">Debt Consolidation</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="repaymentTenure"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Repayment Tenure *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select tenure" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="3months">3 Months</SelectItem>
-                            <SelectItem value="6months">6 Months</SelectItem>
-                            <SelectItem value="12months">12 Months</SelectItem>
-                            <SelectItem value="24months">24 Months</SelectItem>
-                            <SelectItem value="36months">36 Months</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                        <SelectContent>
+                          <SelectItem value="3months">3 Months</SelectItem>
+                          <SelectItem value="6months">6 Months</SelectItem>
+                          <SelectItem value="12months">12 Months</SelectItem>
+                          <SelectItem value="24months">24 Months</SelectItem>
+                          <SelectItem value="36months">36 Months</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
+            </div>
 
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-blue-900 mb-2">Key Benefits</h4>
-                <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• Continue earning returns on your mutual fund investments</li>
-                  <li>• Lower interest rates compared to personal loans</li>
-                  <li>• No processing fees or hidden charges</li>
-                  <li>• Instant approval and disbursal</li>
-                  <li>• Flexible repayment options</li>
-                </ul>
-              </div>
+            <div className="bg-blue-50 p-6 rounded-xl">
+              <h4 className="font-semibold text-blue-900 mb-3">Key Benefits</h4>
+              <ul className="text-sm text-blue-800 space-y-2">
+                <li>• Continue earning returns on your mutual fund investments</li>
+                <li>• Lower interest rates compared to personal loans</li>
+                <li>• No processing fees or hidden charges</li>
+                <li>• Instant approval and disbursal</li>
+                <li>• Flexible repayment options</li>
+              </ul>
+            </div>
 
-              <div className="flex gap-4 pt-4">
-                <Button type="button" variant="outline" onClick={onClose} className="flex-1">
-                  Cancel
-                </Button>
-                <Button type="submit" className="flex-1 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700">
-                  Apply for Loan
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+            <div className="flex gap-4 pt-6">
+              <Button type="button" variant="outline" onClick={onBack} className="flex-1" size="lg">
+                Back to Services
+              </Button>
+              <Button type="submit" className="flex-1 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700" size="lg">
+                Apply for Loan
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };

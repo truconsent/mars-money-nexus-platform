@@ -11,16 +11,11 @@ import { LoanAgainstMFForm } from "./LoanAgainstMFForm";
 import { ServiceCard } from "./ServiceCard";
 import { ServiceQuickNav } from "./ServiceQuickNav";
 import { services } from "./servicesData";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 export const BankingServices = () => {
-  const [showSavingsForm, setShowSavingsForm] = useState(false);
-  const [showCreditCardForm, setShowCreditCardForm] = useState(false);
-  const [showSalaryForm, setShowSalaryForm] = useState(false);
-  const [showFinancialOverviewForm, setShowFinancialOverviewForm] = useState(false);
-  const [showDematForm, setShowDematForm] = useState(false);
-  const [showFixedDepositForm, setShowFixedDepositForm] = useState(false);
-  const [showPersonalLoanForm, setShowPersonalLoanForm] = useState(false);
-  const [showLoanAgainstMFForm, setShowLoanAgainstMFForm] = useState(false);
+  const [activeForm, setActiveForm] = useState<string | null>(null);
 
   const scrollToService = (serviceId: string) => {
     const element = document.getElementById(serviceId);
@@ -30,90 +25,90 @@ export const BankingServices = () => {
   };
 
   const handleApplyClick = (serviceId: string) => {
-    switch (serviceId) {
+    setActiveForm(serviceId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToServices = () => {
+    setActiveForm(null);
+  };
+
+  const renderActiveForm = () => {
+    switch (activeForm) {
       case 'savings':
-        setShowSavingsForm(true);
-        break;
+        return <SavingsAccountForm onBack={handleBackToServices} />;
       case 'salary':
-        setShowSalaryForm(true);
-        break;
+        return <SalaryAccountForm onBack={handleBackToServices} />;
       case 'credit':
-        setShowCreditCardForm(true);
-        break;
+        return <CreditCardForm onBack={handleBackToServices} />;
       case 'financial-overview':
-        setShowFinancialOverviewForm(true);
-        break;
+        return <FinancialOverviewForm onBack={handleBackToServices} />;
       case 'demat':
-        setShowDematForm(true);
-        break;
+        return <DematAccountForm onBack={handleBackToServices} />;
       case 'fixed-deposit':
-        setShowFixedDepositForm(true);
-        break;
+        return <FixedDepositForm onBack={handleBackToServices} />;
       case 'personal-loan':
-        setShowPersonalLoanForm(true);
-        break;
+        return <PersonalLoanForm onBack={handleBackToServices} />;
       case 'loan-against-mf':
-        setShowLoanAgainstMFForm(true);
-        break;
+        return <LoanAgainstMFForm onBack={handleBackToServices} />;
       default:
-        alert('Application form coming soon for this service!');
+        return null;
     }
   };
 
-  return (
-    <>
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Complete Banking Solutions
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From basic savings to advanced financial management, we've got all your banking needs covered
-            </p>
-          </div>
+  const getServiceTitle = () => {
+    const service = services.find(s => s.id === activeForm);
+    return service ? service.title : '';
+  };
 
-          <ServiceQuickNav services={services} onScrollToService={scrollToService} />
-          
-          <div className="space-y-20">
-            {services.map((service, index) => (
-              <div key={service.id} id={service.id} className="scroll-mt-32">
-                <ServiceCard 
-                  service={service} 
-                  index={index} 
-                  onApplyClick={handleApplyClick} 
-                />
-              </div>
-            ))}
+  if (activeForm) {
+    return (
+      <section className="py-20 bg-white min-h-screen">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Button 
+              variant="ghost" 
+              onClick={handleBackToServices}
+              className="mb-4 text-purple-600 hover:text-purple-700"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Services
+            </Button>
+            <div className="text-sm text-gray-500 mb-2">Banking Services</div>
+            <h1 className="text-3xl font-bold text-gray-900">{getServiceTitle()}</h1>
           </div>
+          {renderActiveForm()}
         </div>
       </section>
+    );
+  }
 
-      {/* Form Modals */}
-      {showSavingsForm && (
-        <SavingsAccountForm onClose={() => setShowSavingsForm(false)} />
-      )}
-      {showCreditCardForm && (
-        <CreditCardForm onClose={() => setShowCreditCardForm(false)} />
-      )}
-      {showSalaryForm && (
-        <SalaryAccountForm onClose={() => setShowSalaryForm(false)} />
-      )}
-      {showFinancialOverviewForm && (
-        <FinancialOverviewForm onClose={() => setShowFinancialOverviewForm(false)} />
-      )}
-      {showDematForm && (
-        <DematAccountForm onClose={() => setShowDematForm(false)} />
-      )}
-      {showFixedDepositForm && (
-        <FixedDepositForm onClose={() => setShowFixedDepositForm(false)} />
-      )}
-      {showPersonalLoanForm && (
-        <PersonalLoanForm onClose={() => setShowPersonalLoanForm(false)} />
-      )}
-      {showLoanAgainstMFForm && (
-        <LoanAgainstMFForm onClose={() => setShowLoanAgainstMFForm(false)} />
-      )}
-    </>
+  return (
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Complete Banking Solutions
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            From basic savings to advanced financial management, we've got all your banking needs covered
+          </p>
+        </div>
+
+        <ServiceQuickNav services={services} onScrollToService={scrollToService} />
+        
+        <div className="space-y-20">
+          {services.map((service, index) => (
+            <div key={service.id} id={service.id} className="scroll-mt-32">
+              <ServiceCard 
+                service={service} 
+                index={index} 
+                onApplyClick={handleApplyClick} 
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };

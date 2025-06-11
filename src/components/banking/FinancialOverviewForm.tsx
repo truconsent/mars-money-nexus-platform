@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, X } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -39,7 +39,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 interface FinancialOverviewFormProps {
-  onClose: () => void;
+  onBack: () => void;
 }
 
 const banks = [
@@ -55,7 +55,7 @@ const banks = [
   "Bank of Baroda"
 ];
 
-export const FinancialOverviewForm = ({ onClose }: FinancialOverviewFormProps) => {
+export const FinancialOverviewForm = ({ onBack }: FinancialOverviewFormProps) => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,40 +71,37 @@ export const FinancialOverviewForm = ({ onClose }: FinancialOverviewFormProps) =
   const onSubmit = (data: FormData) => {
     console.log("Financial Overview Form submitted:", data);
     alert("Registration successful! You can now access your unified financial overview.");
-    onClose();
+    onBack();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
-              <BarChart3 className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <CardTitle className="text-2xl font-bold text-gray-900">
-                Unified Financial Overview
-              </CardTitle>
-              <CardDescription>
-                Powered by mars.money • Connect your accounts
-              </CardDescription>
-            </div>
+    <Card className="w-full max-w-4xl mx-auto">
+      <CardHeader>
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
+            <BarChart3 className="h-6 w-6 text-white" />
           </div>
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            <X className="h-4 w-4" />
-          </Button>
-        </CardHeader>
-        
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Personal Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
-                  Personal Information
-                </h3>
-                
+          <div>
+            <CardTitle className="text-2xl font-bold text-gray-900">
+              Unified Financial Overview
+            </CardTitle>
+            <CardDescription>
+              Powered by mars.money • Connect your accounts for complete visibility
+            </CardDescription>
+          </div>
+        </div>
+      </CardHeader>
+      
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {/* Personal Information */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
+                Personal Information
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="name"
@@ -138,117 +135,117 @@ export const FinancialOverviewForm = ({ onClose }: FinancialOverviewFormProps) =
                   )}
                 />
               </div>
+            </div>
 
-              {/* Contact Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
-                  Contact Information
-                </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="emailAddress"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Address *</FormLabel>
+            {/* Contact Information */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
+                Contact Information
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="emailAddress"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address *</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="your.email@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="mobileNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mobile Number *</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="9876543210" 
+                          {...field}
+                          maxLength={10}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* Banking Information */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
+                Banking Information
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="primaryBank"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Primary Bank *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <Input type="email" placeholder="your.email@example.com" {...field} />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select your primary bank" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                        <SelectContent>
+                          {banks.map((bank) => (
+                            <SelectItem key={bank} value={bank}>
+                              {bank}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="mobileNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Mobile Number *</FormLabel>
+                <FormField
+                  control={form.control}
+                  name="consentType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Consent Type *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <Input 
-                            placeholder="9876543210" 
-                            {...field}
-                            maxLength={10}
-                          />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select consent type" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                        <SelectContent>
+                          <SelectItem value="read-only">Read-only Access</SelectItem>
+                          <SelectItem value="full-access">Full Access</SelectItem>
+                          <SelectItem value="limited">Limited Access</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
+            </div>
 
-              {/* Banking Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
-                  Banking Information
-                </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="primaryBank"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Primary Bank *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select your primary bank" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {banks.map((bank) => (
-                              <SelectItem key={bank} value={bank}>
-                                {bank}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="consentType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Consent Type *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select consent type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="read-only">Read-only Access</SelectItem>
-                            <SelectItem value="full-access">Full Access</SelectItem>
-                            <SelectItem value="limited">Limited Access</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 pt-4">
-                <Button type="button" variant="outline" onClick={onClose} className="flex-1">
-                  Cancel
-                </Button>
-                <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700">
-                  Connect Accounts
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+            <div className="flex gap-4 pt-6">
+              <Button type="button" variant="outline" onClick={onBack} className="flex-1" size="lg">
+                Back to Services
+              </Button>
+              <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700" size="lg">
+                Connect Accounts
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };
