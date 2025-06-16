@@ -4,6 +4,8 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Award, Globe } from "lucide-react";
+import '@truconsent/consent-banner-react/MarsConsentModal.css';
+import {TruConsentModal} from "@truconsent/consent-banner-react"
 
 const About = () => {
   const values = [
@@ -32,7 +34,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50">
       <Navigation />
-      
+      <TruConsentModal bannerId={"CP006"}/>
       <section className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
