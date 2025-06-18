@@ -26,7 +26,7 @@ export const BankingServices = () => {
 
   const handleApplyClick = (serviceId: string) => {
     setActiveForm(serviceId);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Removed the scroll to top behavior
   };
 
   const handleBackToServices = () => {
