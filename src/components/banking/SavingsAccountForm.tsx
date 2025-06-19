@@ -59,7 +59,7 @@ export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
   return (
     <Card className="w-full max-w-4xl mx-auto">
       {showBanner && 
-       <TruConsentModal bannerId={"CP006"} onClose={(type)=>{
+       <TruConsentModal bannerId={"CP003"} onClose={(type)=>{
         // console.log("close")
         onSubmitted(type)
        }}/>
