@@ -34,7 +34,9 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50">
       <Navigation />
-      <TruConsentModal bannerId={"CP006"}/>
+      {/* <TruConsentModal bannerId={"CP006"} onClose={(type)=>{
+        console.log("close",type)
+       }}/> */}
       <section className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">

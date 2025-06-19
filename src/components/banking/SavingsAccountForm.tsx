@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PiggyBank } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-
+import {TruConsentModal} from "@truconsent/consent-banner-react"
 interface SavingsAccountFormProps {
   onBack: () => void;
 }
@@ -30,18 +30,40 @@ interface SavingsFormData {
 export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
   const [step, setStep] = useState(1);
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<SavingsFormData>();
+  const [showBanner,setShowBanner] = useState(false)
 
   const onSubmit = (data: SavingsFormData) => {
     console.log("Savings Account Application:", data);
-    toast({
-      title: "Application Submitted",
-      description: "Your savings account application has been submitted successfully!",
-    });
-    onBack();
+    setShowBanner(true)
+   
   };
+  const onSubmitted = (type) => {
+    if(type == "approved"){
+      toast({
+          title: "Application Submitted",
+          description: "Your savings account application has been submitted successfully!",
+        });
+        onBack();
+        setShowBanner(false)
+      }
+      else{
+        toast({
+          title: "Application Not Submitted",
+          description: "Please provide the consent",
+        });
+        setShowBanner(true)
+      }
+
+  }
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
+      {showBanner && 
+       <TruConsentModal bannerId={"CP006"} onClose={(type)=>{
+        // console.log("close")
+        onSubmitted(type)
+       }}/>
+       }
       <CardHeader>
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
