@@ -39,17 +39,25 @@ const Signup = () => {
   }
 
   const onSubmit = async (data: SignupFormData) => {
-    const success = await signup(data.email, data.password, data.name);
+    const result = await signup(data.email, data.password, data.name);
     
-    if (success) {
-      toast({
-        title: "Welcome to mars.money!",
-        description: "Your account has been created successfully.",
-      });
+    if (result.success) {
+      if (result.error) {
+        // This means signup was successful but user needs to confirm email
+        toast({
+          title: "Account created!",
+          description: result.error,
+        });
+      } else {
+        toast({
+          title: "Welcome to mars.money!",
+          description: "Your account has been created successfully.",
+        });
+      }
     } else {
       toast({
         title: "Signup failed",
-        description: "An account with this email already exists.",
+        description: result.error || "Please try again.",
         variant: "destructive",
       });
     }

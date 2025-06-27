@@ -33,9 +33,9 @@ const Login = () => {
   }
 
   const onSubmit = async (data: LoginFormData) => {
-    const success = await login(data.email, data.password);
+    const result = await login(data.email, data.password);
     
-    if (success) {
+    if (result.success) {
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
@@ -43,7 +43,7 @@ const Login = () => {
     } else {
       toast({
         title: "Login failed",
-        description: "Invalid email or password. Please try again.",
+        description: result.error || "Please try again.",
         variant: "destructive",
       });
     }

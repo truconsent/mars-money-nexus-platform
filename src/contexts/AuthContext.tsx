@@ -1,17 +1,20 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 
-interface User {
+interface Profile {
   id: string;
-  email: string;
   name: string;
+  email: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  signup: (email: string, password: string, name: string) => Promise<boolean>;
-  logout: () => void;
+  profile: Profile | null;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  signup: (email: string, password: string, name: string) => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
   isLoading: boolean;
 }
 
@@ -27,97 +30,131 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Check for existing user session on mount
-    const storedUser = localStorage.getItem('mars_money_user');
-    if (storedUser) {
-      try {
-        const userData = JSON.parse(storedUser);
-        setUser(userData);
-      } catch (error) {
-        console.error('Error parsing stored user data:', error);
-        localStorage.removeItem('mars_money_user');
+  const fetchProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching profile:', error);
+        return;
       }
+
+      setProfile(data);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
     }
-    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state changed:', event, session);
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          // Fetch user profile when user is authenticated
+          setTimeout(() => {
+            fetchProfile(session.user.id);
+          }, 0);
+        } else {
+          setProfile(null);
+        }
+        
+        setIsLoading(false);
+      }
+    );
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        fetchProfile(session.user.id);
+      }
+      
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     setIsLoading(true);
     
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    // Check if user exists in localStorage "database"
-    const storedUsers = localStorage.getItem('mars_money_users');
-    const users = storedUsers ? JSON.parse(storedUsers) : [];
-    
-    const existingUser = users.find((u: any) => u.email === email && u.password === password);
-    
-    if (existingUser) {
-      const userData = {
-        id: existingUser.id,
-        email: existingUser.email,
-        name: existingUser.name
-      };
-      setUser(userData);
-      localStorage.setItem('mars_money_user', JSON.stringify(userData));
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        setIsLoading(false);
+        return { success: false, error: error.message };
+      }
+
+      // The auth state change listener will handle setting the user and profile
+      return { success: true };
+    } catch (error) {
       setIsLoading(false);
-      return true;
+      return { success: false, error: 'An unexpected error occurred' };
     }
-    
-    setIsLoading(false);
-    return false;
   };
 
-  const signup = async (email: string, password: string, name: string): Promise<boolean> => {
+  const signup = async (email: string, password: string, name: string): Promise<{ success: boolean; error?: string }> => {
     setIsLoading(true);
     
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    // Check if user already exists
-    const storedUsers = localStorage.getItem('mars_money_users');
-    const users = storedUsers ? JSON.parse(storedUsers) : [];
-    
-    if (users.find((u: any) => u.email === email)) {
+    try {
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            name: name,
+          },
+        },
+      });
+
+      if (error) {
+        setIsLoading(false);
+        return { success: false, error: error.message };
+      }
+
+      // Check if user needs to confirm email
+      if (data.user && !data.session) {
+        setIsLoading(false);
+        return { success: true, error: 'Please check your email to confirm your account' };
+      }
+
+      return { success: true };
+    } catch (error) {
       setIsLoading(false);
-      return false; // User already exists
+      return { success: false, error: 'An unexpected error occurred' };
     }
-    
-    // Create new user
-    const newUser = {
-      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-      email,
-      password,
-      name
-    };
-    
-    users.push(newUser);
-    localStorage.setItem('mars_money_users', JSON.stringify(users));
-    
-    // Set current user
-    const userData = {
-      id: newUser.id,
-      email: newUser.email,
-      name: newUser.name
-    };
-    setUser(userData);
-    localStorage.setItem('mars_money_user', JSON.stringify(userData));
-    
-    setIsLoading(false);
-    return true;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('mars_money_user');
+    setProfile(null);
+    setSession(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, profile, login, signup, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

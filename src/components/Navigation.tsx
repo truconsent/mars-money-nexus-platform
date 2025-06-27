@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, profile, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -51,7 +51,9 @@ export const Navigation = () => {
                 <div className="flex items-center space-x-3">
                   <div className="flex items-center space-x-2 px-3 py-2 bg-purple-50 rounded-lg">
                     <User className="h-4 w-4 text-purple-600" />
-                    <span className="text-sm font-medium text-purple-700">{user.name}</span>
+                    <span className="text-sm font-medium text-purple-700">
+                      {profile?.name || user.email}
+                    </span>
                   </div>
                   <Button 
                     variant="outline" 
@@ -98,7 +100,9 @@ export const Navigation = () => {
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2 px-3 py-2 bg-purple-50 rounded-lg">
                       <User className="h-4 w-4 text-purple-600" />
-                      <span className="text-sm font-medium text-purple-700">{user.name}</span>
+                      <span className="text-sm font-medium text-purple-700">
+                        {profile?.name || user.email}
+                      </span>
                     </div>
                     <Button 
                       variant="outline" 
