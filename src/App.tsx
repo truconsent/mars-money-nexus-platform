@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Banking from "./pages/Banking";
 import Investments from "./pages/Investments";
@@ -15,6 +16,8 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Contact from "./pages/Contact";
 import Support from "./pages/Support";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,15 +30,53 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/banking" element={<Banking />} />
-            <Route path="/investments" element={<Investments />} />
-            <Route path="/loans" element={<Loans />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/support" element={<Support />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Index />
+              </ProtectedRoute>
+            } />
+            <Route path="/banking" element={
+              <ProtectedRoute>
+                <Banking />
+              </ProtectedRoute>
+            } />
+            <Route path="/investments" element={
+              <ProtectedRoute>
+                <Investments />
+              </ProtectedRoute>
+            } />
+            <Route path="/loans" element={
+              <ProtectedRoute>
+                <Loans />
+              </ProtectedRoute>
+            } />
+            <Route path="/about" element={
+              <ProtectedRoute>
+                <About />
+              </ProtectedRoute>
+            } />
+            <Route path="/privacy" element={
+              <ProtectedRoute>
+                <Privacy />
+              </ProtectedRoute>
+            } />
+            <Route path="/terms" element={
+              <ProtectedRoute>
+                <Terms />
+              </ProtectedRoute>
+            } />
+            <Route path="/contact" element={
+              <ProtectedRoute>
+                <Contact />
+              </ProtectedRoute>
+            } />
+            <Route path="/support" element={
+              <ProtectedRoute>
+                <Support />
+              </ProtectedRoute>
+            } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
