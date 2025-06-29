@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { SavingsAccountForm } from "./SavingsAccountForm";
 import { CreditCardForm } from "./CreditCardForm";
@@ -26,11 +25,21 @@ export const BankingServices = () => {
 
   const handleApplyClick = (serviceId: string) => {
     setActiveForm(serviceId);
-    // Removed the scroll to top behavior
+    // Scroll to top of the page when form opens
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   const handleBackToServices = () => {
     setActiveForm(null);
+    // Scroll to services section when going back
+    setTimeout(() => {
+      const servicesSection = document.querySelector('.services-section');
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   const renderActiveForm = () => {
@@ -75,7 +84,7 @@ export const BankingServices = () => {
               Back to Services
             </Button>
             <div className="text-sm text-gray-500 mb-2">Banking Services</div>
-            <h1 className="text-3xl font-bold text-gray-900">{getServiceTitle()}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{getServiceTitle()}</h1>
           </div>
           {renderActiveForm()}
         </div>
@@ -84,13 +93,13 @@ export const BankingServices = () => {
   }
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white services-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
             Complete Banking Solutions
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             From basic savings to advanced financial management, we've got all your banking needs covered
           </p>
         </div>

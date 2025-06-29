@@ -22,21 +22,7 @@ export const FinancialInfoSection = ({ form }: FinancialInfoSectionProps) => {
         Financial Information
       </h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <FormField
-          control={form.control}
-          name="creditScore"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Credit Score *</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter your credit score" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
+      <div className="grid grid-cols-1 gap-6">
         <FormField
           control={form.control}
           name="salaryDetails"

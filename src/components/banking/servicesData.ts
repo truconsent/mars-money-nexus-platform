@@ -4,8 +4,6 @@ import {
   CreditCard, 
   Briefcase, 
   BarChart3, 
-  TrendingUp, 
-  Wallet, 
   HandCoins, 
   Building2 
 } from "lucide-react";
@@ -96,44 +94,6 @@ export const services: Service[] = [
       "Spending analytics",
       "Goal tracking",
       "Report generation"
-    ]
-  },
-  {
-    id: "demat",
-    icon: TrendingUp,
-    title: "Demat Account",
-    partner: "Zerodha",
-    description: "Start your investment journey with a free demat account and low brokerage",
-    benefits: [
-      "Zero account opening charges",
-      "Low brokerage rates",
-      "Research reports",
-      "24/7 support"
-    ],
-    features: [
-      "Stock trading",
-      "Mutual fund investments",
-      "IPO applications",
-      "Portfolio tracking"
-    ]
-  },
-  {
-    id: "fixed-deposit",
-    icon: Wallet,
-    title: "Fixed Deposit",
-    partner: "Federal Bank",
-    description: "Secure your money with guaranteed returns through fixed deposits",
-    benefits: [
-      "Attractive interest rates",
-      "Flexible tenure options",
-      "Auto-renewal facility",
-      "Loan against FD"
-    ],
-    features: [
-      "Online FD booking",
-      "Premature withdrawal",
-      "Interest payout options",
-      "Tax saving FDs"
     ]
   },
   {

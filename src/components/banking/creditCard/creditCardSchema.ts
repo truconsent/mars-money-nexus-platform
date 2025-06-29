@@ -2,7 +2,6 @@
 import * as z from "zod";
 
 export const creditCardFormSchema = z.object({
-  creditScore: z.string().min(1, "Please enter your credit score"),
   name: z.string().min(2, "Name must be at least 2 characters"),
   panNumber: z
     .string()
