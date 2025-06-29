@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react"; // Added useState import
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2 } from "lucide-react";
+import { toast } from "@/components/ui/use-toast"; // Importing toast
+import { TruConsentModal } from "@truconsent/consent-banner-react"; // Importing TruConsentModal
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -71,14 +73,51 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
     },
   });
 
+  // State to control the visibility of the TruConsentModal
+  const [showBanner, setShowBanner] = useState(false);
+
+  // onSubmit function, now triggers the consent banner
   const onSubmit = (data: FormData) => {
-    console.log("Salary Account Form submitted:", data);
-    alert("Salary account application submitted successfully! We will contact you soon.");
-    onBack();
+    console.log("Salary Account Form data captured:", data);
+    // Instead of direct submission, show the consent banner
+    setShowBanner(true);
+  };
+
+  // onSubmitted function, handles the response from the TruConsentModal
+  const onSubmitted = (type: string) => {
+    console.log("Salary Account Application: TruConsentModal onClose triggered with type:", type);
+    if (type === "approved") {
+      // If consent is approved, proceed with application submission success
+      toast({
+        title: "Application Submitted",
+        description: "Salary account application submitted successfully! We will contact you soon.",
+      });
+      setShowBanner(false); // Hide the banner as consent is given and processed
+      onBack(); // Navigate back or reset form
+    } else {
+      // If consent is not approved, inform the user and keep the banner visible
+      toast({
+        title: "Application Not Submitted",
+        description: "Please provide the consent to proceed with your salary account application.",
+      });
+      setShowBanner(true); // Ensure the banner remains visible to re-prompt for consent
+    }
   };
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
+      {/* Conditionally render the TruConsentModal.
+          It will appear when showBanner state is true, typically after the user attempts to submit the form. */}
+      {showBanner && (
+        <TruConsentModal
+          bannerId={"CP003"} // Unique identifier for this specific salary account consent banner.
+                           // This ID must be configured in your TruConsent platform.
+          onClose={(type) => { // Callback fired when the user interacts with the modal (approves, denies, closes).
+            onSubmitted(type); // Pass the consent type (e.g., "approved", "denied") to our handler.
+          }}
+        />
+      )}
+
       <CardHeader>
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center">
@@ -97,6 +136,8 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
       
       <CardContent>
         <Form {...form}>
+          {/* The form's onSubmit event is now tied to our custom onSubmit function,
+              which will trigger the consent banner display. */}
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             {/* Business Partnership */}
             <div className="space-y-6">
