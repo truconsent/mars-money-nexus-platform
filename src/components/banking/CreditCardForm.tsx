@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -23,7 +22,10 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreditCard } from "lucide-react";
+import { toast } from "@/components/ui/use-toast"; // Importing the actual toast component
+import { TruConsentModal } from "@truconsent/consent-banner-react"; // Importing the actual TruConsentModal package
 
+// Define the schema for the form data using Zod
 const formSchema = z.object({
   creditScore: z.string().min(1, "Please enter your credit score"),
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -44,15 +46,19 @@ const formSchema = z.object({
   salaryDetails: z.string().min(1, "Please enter your salary details"),
 });
 
+// Infer the form data type from the schema
 type FormData = z.infer<typeof formSchema>;
 
+// Define props for the CreditCardForm component
 interface CreditCardFormProps {
   onBack: () => void;
 }
 
+// CreditCardForm functional component
 export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
+  // Initialize react-hook-form
   const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema), // Use Zod for validation
     defaultValues: {
       creditScore: "",
       name: "",
@@ -68,14 +74,50 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
     },
   });
 
+  // State to control the visibility of the TruConsentModal
+  const [showBanner, setShowBanner] = useState(false);
+
+  // onSubmit function, now triggers the consent banner
   const onSubmit = (data: FormData) => {
-    console.log("Credit Card Application submitted:", data);
-    alert("Credit card application submitted successfully! We will review and contact you soon.");
-    onBack();
+    console.log("Credit Card Application data captured:", data);
+    // On form submission, instead of direct processing, show the consent banner.
+    setShowBanner(true);
+  };
+
+  // onSubmitted function, handles the response from the TruConsentModal
+  const onSubmitted = (type: string) => {
+    if (type === "approved") {
+      // If consent is approved, proceed with application submission success
+      toast({
+        title: "Application Submitted",
+        description: "Your credit card application has been submitted successfully! We will review and contact you soon.",
+      });
+      setShowBanner(false); // Hide the banner as consent is given and processed
+      onBack(); // Navigate back or reset the form
+    } else {
+      // If consent is not approved (e.g., "denied" or closed), inform the user and keep the banner visible
+      toast({
+        title: "Application Not Submitted",
+        description: "Please provide the consent to proceed with your credit card application.",
+      });
+      setShowBanner(true); // Ensure the banner remains visible to re-prompt for consent
+    }
   };
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
+      {/* Conditionally render the TruConsentModal.
+          It will appear when showBanner state is true, typically after the user attempts to submit the form. */}
+      {showBanner && (
+        <TruConsentModal
+          bannerId={"CC001"} // Unique identifier for this specific credit card consent banner.
+                           // This ID must be configured in your TruConsent platform.
+          onClose={(type) => { // Callback fired when the user interacts with the modal (approves, denies, closes).
+            onSubmitted(type); // Pass the consent type (e.g., "approved", "denied") to our handler.
+          }}
+        />
+      )}
+
       <CardHeader>
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
@@ -91,11 +133,13 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <Form {...form}>
+          {/* The form's onSubmit event is now tied to our custom onSubmit function,
+              which will trigger the consent banner display. */}
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Financial Information */}
+            {/* Financial Information Section */}
             <div className="space-y-6">
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Financial Information
@@ -132,7 +176,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
               </div>
             </div>
 
-            {/* Personal Information */}
+            {/* Personal Information Section */}
             <div className="space-y-6">
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Personal Information
@@ -216,7 +260,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
               </div>
             </div>
 
-            {/* Identity Verification */}
+            {/* Identity Verification Section */}
             <div className="space-y-6">
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Identity Verification
@@ -262,7 +306,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
               </div>
             </div>
 
-            {/* Contact Information */}
+            {/* Contact Information Section */}
             <div className="space-y-6">
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Contact Information
@@ -321,6 +365,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
               />
             </div>
 
+            {/* Form Submission Buttons */}
             <div className="flex gap-4 pt-6">
               <Button type="button" variant="outline" onClick={onBack} className="flex-1" size="lg">
                 Back to Services
