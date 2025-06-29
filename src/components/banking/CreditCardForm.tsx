@@ -119,7 +119,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
           It will appear when showBanner state is true, typically after the user attempts to submit the form. */}
       {showBanner && (
         <TruConsentModal
-          bannerId={"CC001"} // Unique identifier for this specific credit card consent banner.
+          bannerId={"CP007"} // Unique identifier for this specific credit card consent banner.
                            // This ID must be configured in your TruConsent platform.
           onClose={(type) => { // Callback fired when the user interacts with the modal (approves, denies, closes).
             onSubmitted(type); // Pass the consent type (e.g., "approved", "denied") to our handler.
