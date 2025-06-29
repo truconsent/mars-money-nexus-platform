@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/use-toast';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -22,15 +22,18 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { login, isLoading, user } = useAuth();
+  const navigate = useNavigate();
   
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
-  // Redirect if already logged in
-  if (user) {
-    return <Navigate to="/" replace />;
-  }
+  // Redirect authenticated users to home page
+  useEffect(() => {
+    if (user) {
+      navigate('/', { replace: true });
+    }
+  }, [user, navigate]);
 
   const onSubmit = async (data: LoginFormData) => {
     const result = await login(data.email, data.password);
@@ -40,6 +43,7 @@ const Login = () => {
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
+      navigate('/', { replace: true });
     } else {
       toast({
         title: "Login failed",
@@ -48,6 +52,11 @@ const Login = () => {
       });
     }
   };
+
+  // Don't render the form if user is already authenticated
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50 flex items-center justify-center p-4">

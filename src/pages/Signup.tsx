@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { UserPlus, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/use-toast';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 const signupSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -28,22 +28,24 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signup, isLoading, user } = useAuth();
+  const navigate = useNavigate();
   
   const { register, handleSubmit, formState: { errors } } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
   });
 
-  // Redirect if already logged in
-  if (user) {
-    return <Navigate to="/" replace />;
-  }
+  // Redirect authenticated users to home page
+  useEffect(() => {
+    if (user) {
+      navigate('/', { replace: true });
+    }
+  }, [user, navigate]);
 
   const onSubmit = async (data: SignupFormData) => {
     const result = await signup(data.email, data.password, data.name);
     
     if (result.success) {
       if (result.error) {
-        // This means signup was successful but user needs to confirm email
         toast({
           title: "Account created!",
           description: result.error,
@@ -53,6 +55,7 @@ const Signup = () => {
           title: "Welcome to mars.money!",
           description: "Your account has been created successfully.",
         });
+        navigate('/', { replace: true });
       }
     } else {
       toast({
@@ -62,6 +65,11 @@ const Signup = () => {
       });
     }
   };
+
+  // Don't render the form if user is already authenticated
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50 flex items-center justify-center p-4">

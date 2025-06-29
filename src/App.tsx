@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Banking from "./pages/Banking";
 import Investments from "./pages/Investments";
@@ -32,51 +31,15 @@ const App = () => (
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/" element={
-              <ProtectedRoute>
-                <Index />
-              </ProtectedRoute>
-            } />
-            <Route path="/banking" element={
-              <ProtectedRoute>
-                <Banking />
-              </ProtectedRoute>
-            } />
-            <Route path="/investments" element={
-              <ProtectedRoute>
-                <Investments />
-              </ProtectedRoute>
-            } />
-            <Route path="/loans" element={
-              <ProtectedRoute>
-                <Loans />
-              </ProtectedRoute>
-            } />
-            <Route path="/about" element={
-              <ProtectedRoute>
-                <About />
-              </ProtectedRoute>
-            } />
-            <Route path="/privacy" element={
-              <ProtectedRoute>
-                <Privacy />
-              </ProtectedRoute>
-            } />
-            <Route path="/terms" element={
-              <ProtectedRoute>
-                <Terms />
-              </ProtectedRoute>
-            } />
-            <Route path="/contact" element={
-              <ProtectedRoute>
-                <Contact />
-              </ProtectedRoute>
-            } />
-            <Route path="/support" element={
-              <ProtectedRoute>
-                <Support />
-              </ProtectedRoute>
-            } />
+            <Route path="/" element={<Index />} />
+            <Route path="/banking" element={<Banking />} />
+            <Route path="/investments" element={<Investments />} />
+            <Route path="/loans" element={<Loans />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/support" element={<Support />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

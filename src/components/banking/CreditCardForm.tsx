@@ -22,8 +22,10 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreditCard } from "lucide-react";
-import { toast } from "@/components/ui/use-toast"; // Importing the actual toast component
-import { TruConsentModal } from "@truconsent/consent-banner-react"; // Importing the actual TruConsentModal package
+import { toast } from "@/components/ui/use-toast";
+import { TruConsentModal } from "@truconsent/consent-banner-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { RegistrationModal } from "@/components/RegistrationModal";
 
 // Define the schema for the form data using Zod
 const formSchema = z.object({
@@ -56,16 +58,21 @@ interface CreditCardFormProps {
 
 // CreditCardForm functional component
 export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
+  const { user } = useAuth();
+  const [showBanner, setShowBanner] = useState(false);
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
+  const [applicationData, setApplicationData] = useState<FormData | null>(null);
+
   // Initialize react-hook-form
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema), // Use Zod for validation
     defaultValues: {
       creditScore: "",
-      name: "",
+      name: user?.user_metadata?.name || "",
       panNumber: "",
       gender: "",
       dateOfBirth: "",
-      emailAddress: "",
+      emailAddress: user?.email || "",
       address: "",
       aadharNumber: "",
       maritalStatus: "",
@@ -74,23 +81,37 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
     },
   });
 
-  // State to control the visibility of the TruConsentModal
-  const [showBanner, setShowBanner] = useState(false);
-
-  // onSubmit function, now triggers the consent banner
   const onSubmit = (data: FormData) => {
     console.log("Credit Card Application data captured:", data);
-    // On form submission, instead of direct processing, show the consent banner.
+    setApplicationData(data);
+    
+    if (!user) {
+      // For guest users, show registration modal first
+      setShowRegistrationModal(true);
+    } else {
+      // For registered users, proceed directly to consent
+      setShowBanner(true);
+    }
+  };
+
+  const handleRegistrationSuccess = () => {
+    // After successful registration, proceed to consent
     setShowBanner(true);
   };
 
-  // onSubmitted function, handles the response from the TruConsentModal
+  const handleSkipRegistration = () => {
+    // Guest user chose to skip registration, proceed to consent
+    setShowRegistrationModal(false);
+    setShowBanner(true);
+  };
+
   const onSubmitted = (type: string) => {
     if (type === "approved") {
-      // If consent is approved, proceed with application submission success
       toast({
         title: "Application Submitted",
-        description: "Your credit card application has been submitted successfully! We will review and contact you soon.",
+        description: user 
+          ? "Your credit card application has been submitted successfully! We will review and contact you soon."
+          : "Your credit card application has been submitted successfully! Consider registering to track your application status.",
       });
       setShowBanner(false); // Hide the banner as consent is given and processed
       onBack(); // Navigate back or reset the form
@@ -118,6 +139,16 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
         />
       )}
 
+      <RegistrationModal
+        isOpen={showRegistrationModal}
+        onClose={() => setShowRegistrationModal(false)}
+        onSuccess={handleRegistrationSuccess}
+        prefilledData={{
+          name: applicationData?.name,
+          email: applicationData?.emailAddress,
+        }}
+      />
+
       <CardHeader>
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
@@ -129,6 +160,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
             </CardTitle>
             <CardDescription>
               Powered by Catholic Syrian Bank • Credit Card Application (CSB)
+              {!user && " • No registration required"}
             </CardDescription>
           </div>
         </div>
@@ -371,7 +403,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
                 Back to Services
               </Button>
               <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700" size="lg">
-                Submit Application
+                {user ? "Submit Application" : "Apply Now (Guest)"}
               </Button>
             </div>
           </form>

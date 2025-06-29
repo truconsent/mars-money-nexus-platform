@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Menu, User, LogOut } from "lucide-react";
+import { Menu, User, LogOut, LogIn, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -47,7 +47,7 @@ export const Navigation = () => {
 
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6 space-x-3">
-              {user && (
+              {user ? (
                 <div className="flex items-center space-x-3">
                   <div className="flex items-center space-x-2 px-3 py-2 bg-purple-50 rounded-lg">
                     <User className="h-4 w-4 text-purple-600" />
@@ -64,6 +64,21 @@ export const Navigation = () => {
                     <LogOut className="h-4 w-4 mr-2" />
                     Logout
                   </Button>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Link to="/login">
+                    <Button variant="outline" size="sm" className="border-purple-200 text-purple-700 hover:bg-purple-50">
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Login
+                    </Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button size="sm" className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700">
+                      <UserPlus className="h-4 w-4 mr-2" />
+                      Sign Up
+                    </Button>
+                  </Link>
                 </div>
               )}
             </div>
@@ -96,7 +111,7 @@ export const Navigation = () => {
                 About
               </Link>
               <div className="pt-4 pb-3 border-t border-gray-200">
-                {user && (
+                {user ? (
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2 px-3 py-2 bg-purple-50 rounded-lg">
                       <User className="h-4 w-4 text-purple-600" />
@@ -112,6 +127,21 @@ export const Navigation = () => {
                       <LogOut className="h-4 w-4 mr-2" />
                       Logout
                     </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Link to="/login">
+                      <Button variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50">
+                        <LogIn className="h-4 w-4 mr-2" />
+                        Login
+                      </Button>
+                    </Link>
+                    <Link to="/signup">
+                      <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700">
+                        <UserPlus className="h-4 w-4 mr-2" />
+                        Sign Up
+                      </Button>
+                    </Link>
                   </div>
                 )}
               </div>
