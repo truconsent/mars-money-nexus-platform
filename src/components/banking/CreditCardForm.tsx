@@ -110,10 +110,11 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
-      {/* Diagnostic: Display current state of showBanner for live debugging */}
+      {/* Diagnostic: Display current state of showBanner for live debugging 
       <div style={{ padding: '10px', background: '#e0f7fa', borderBottom: '1px solid #00bcd4', marginBottom: '20px', textAlign: 'center', color: '#00796b', fontWeight: 'bold' }}>
         Current Banner State: <span style={{ color: showBanner ? 'green' : 'red' }}>{showBanner ? 'VISIBLE (TruConsentModal should be showing)' : 'HIDDEN'}</span>
       </div>
+      */}
 
       {/* Conditionally render the TruConsentModal.
           It will appear when showBanner state is true, typically after the user attempts to submit the form. */}
