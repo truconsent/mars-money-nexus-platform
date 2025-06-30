@@ -1,3 +1,4 @@
+
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 
@@ -37,6 +38,7 @@ export const Footer = () => {
               <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
               <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link to="/rights-center" className="hover:text-white transition-colors">Rights Center</Link></li>
               <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
               <li><Link to="/support" className="hover:text-white transition-colors">Support</Link></li>
             </ul>

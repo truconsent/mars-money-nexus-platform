@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Menu, User, LogOut, LogIn, UserPlus } from "lucide-react";
+import { Menu, User, LogOut, LogIn, UserPlus, Settings } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -42,6 +42,11 @@ export const Navigation = () => {
               <Link to="/about" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 About
               </Link>
+              {user && (
+                <Link to="/my-account" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  My Account
+                </Link>
+              )}
             </div>
           </div>
 
@@ -55,6 +60,12 @@ export const Navigation = () => {
                       {profile?.name || user.email}
                     </span>
                   </div>
+                  <Link to="/my-account">
+                    <Button variant="outline" size="sm" className="border-purple-200 text-purple-700 hover:bg-purple-50">
+                      <Settings className="h-4 w-4 mr-2" />
+                      Account
+                    </Button>
+                  </Link>
                   <Button 
                     variant="outline" 
                     size="sm"
@@ -110,6 +121,11 @@ export const Navigation = () => {
               <Link to="/about" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
                 About
               </Link>
+              {user && (
+                <Link to="/my-account" className="text-gray-900 hover:text-purple-600 block px-3 py-2 rounded-md text-base font-medium">
+                  My Account
+                </Link>
+              )}
               <div className="pt-4 pb-3 border-t border-gray-200">
                 {user ? (
                   <div className="space-y-2">
@@ -119,6 +135,12 @@ export const Navigation = () => {
                         {profile?.name || user.email}
                       </span>
                     </div>
+                    <Link to="/my-account">
+                      <Button variant="outline" className="w-full border-purple-200 text-purple-700 hover:bg-purple-50">
+                        <Settings className="h-4 w-4 mr-2" />
+                        My Account
+                      </Button>
+                    </Link>
                     <Button 
                       variant="outline" 
                       className="w-full border-red-200 text-red-700 hover:bg-red-50"
