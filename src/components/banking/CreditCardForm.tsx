@@ -13,12 +13,15 @@ import { FinancialInfoSection } from "./creditCard/FinancialInfoSection";
 import { PersonalInfoSection } from "./creditCard/PersonalInfoSection";
 import { IdentityVerificationSection } from "./creditCard/IdentityVerificationSection";
 import { ContactInfoSection } from "./creditCard/ContactInfoSection";
+import { useAuth } from "@/contexts/AuthContext";
+
 
 interface CreditCardFormProps {
   onBack: () => void;
 }
 
 export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
+  const { user, profile, logout } = useAuth();
   const form = useForm<CreditCardFormData>({
     resolver: zodResolver(creditCardFormSchema),
     defaultValues: {
@@ -68,6 +71,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
     <Card className="w-full max-w-4xl mx-auto">
       {showBanner && (
         <TruConsentModal
+          userId={user.id}
           bannerId={"CP007"}
           onClose={(type) => {
             onSubmitted(type);

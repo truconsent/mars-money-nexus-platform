@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { PiggyBank } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import {TruConsentModal} from "@truconsent/consent-banner-react"
+import { useAuth } from "@/contexts/AuthContext";
+
 interface SavingsAccountFormProps {
   onBack: () => void;
 }
@@ -25,6 +27,7 @@ interface SavingsFormData {
   initialDeposit: string;
 }
 export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
+  const { user, profile, logout } = useAuth();
   const [step, setStep] = useState(1);
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<SavingsFormData>();
   const [showBanner,setShowBanner] = useState(false)
@@ -53,7 +56,7 @@ export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
   return (
     <Card className="w-full max-w-4xl mx-auto">
       {showBanner && 
-       <TruConsentModal bannerId={"CP003"} onClose={(type)=>{
+       <TruConsentModal userId={user.id} bannerId={"CP003"} onClose={(type)=>{
         // console.log("close")
         onSubmitted(type)
        }}/>

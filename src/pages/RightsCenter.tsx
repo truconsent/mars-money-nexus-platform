@@ -3,6 +3,10 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import "@truconsent/consent-banner-react/PreferenceCenter.css"
+import {PreferenceCenter} from "@truconsent/consent-banner-react"
+
+
 
 const RightsCenter = () => {
   const { user } = useAuth();
@@ -15,10 +19,10 @@ const RightsCenter = () => {
   const iframeUrl = `https://iwjwpfuaygfojwrrstly.supabase.co/functions/v1/embed-rights-center?client_id=MARS_MONEY_CLIENT_001&data_principal_id=${user.id}`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50 flex flex-col">
+    <div className="">
       <Navigation />
       
-      <div className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
+      {/* <div className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
         <iframe 
           src={iframeUrl}
           width="100%" 
@@ -26,7 +30,8 @@ const RightsCenter = () => {
           className="w-full h-full border-0 rounded-lg shadow-lg"
           title="Rights Center"
         />
-      </div>
+      </div> */}
+      <PreferenceCenter userId={user.id.slice(0,6)}/>
 
       <Footer />
     </div>
