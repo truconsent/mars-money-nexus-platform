@@ -3,8 +3,8 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-import "@truconsent/consent-banner-react/PreferenceCenter.css"
-import {PreferenceCenter} from "@truconsent/consent-banner-react"
+import "@truconsent/consent-banner-react/RightCenter.css"
+import {RightCenter} from "@truconsent/consent-banner-react"
 
 
 
@@ -31,7 +31,7 @@ const RightsCenter = () => {
           title="Rights Center"
         />
       </div> */}
-      <PreferenceCenter userId={user.id.slice(0,6)}/>
+      <RightCenter userId={user.id.slice(0,6)}/>
 
       <Footer />
     </div>
