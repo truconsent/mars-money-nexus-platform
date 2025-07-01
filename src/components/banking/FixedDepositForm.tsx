@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -21,6 +21,9 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wallet } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -44,6 +47,7 @@ interface FixedDepositFormProps {
 }
 
 export const FixedDepositForm = ({ onBack }: FixedDepositFormProps) => {
+  const { user } = useAuth();
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,10 +62,44 @@ export const FixedDepositForm = ({ onBack }: FixedDepositFormProps) => {
     },
   });
 
-  const onSubmit = (data: FormData) => {
+  const saveApplication = async (data: FormData) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('applications')
+        .insert({
+          user_id: user.id,
+          application_type: 'fixed_deposit',
+          application_data: data,
+          status: 'submitted'
+        });
+
+      if (error) {
+        console.error('Error saving application:', error);
+        toast({
+          title: "Error",
+          description: "Failed to save application. Please try again.",
+        });
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error('Error saving application:', error);
+      return false;
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
     console.log("Fixed Deposit Form submitted:", data);
-    alert("Fixed deposit application submitted successfully! We will process your request soon.");
-    onBack();
+    const saved = await saveApplication(data);
+    if (saved) {
+      toast({
+        title: "Application Submitted",
+        description: "Fixed deposit application submitted successfully! We will process your request soon.",
+      });
+      onBack();
+    }
   };
 
   return (

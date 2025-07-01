@@ -4,8 +4,18 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { User, Calendar, Clock } from "lucide-react";
+import { User, Calendar, Clock, FileText } from "lucide-react";
 import { Navigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+
+interface Application {
+  id: string;
+  application_type: string;
+  status: string;
+  created_at: string;
+  application_data: any;
+}
 
 const MyAccount = () => {
   const { user, profile } = useAuth();
@@ -14,6 +24,43 @@ const MyAccount = () => {
   if (!user) {
     return <Navigate to="/login" replace />;
   }
+
+  const { data: applications, isLoading } = useQuery({
+    queryKey: ['applications', user.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('applications')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching applications:', error);
+        return [];
+      }
+      return data as Application[];
+    },
+  });
+
+  const getApplicationTypeLabel = (type: string) => {
+    const labels: { [key: string]: string } = {
+      'credit_card': 'Credit Card',
+      'demat_account': 'Demat Account',
+      'fixed_deposit': 'Fixed Deposit',
+      'financial_overview': 'Financial Overview'
+    };
+    return labels[type] || type;
+  };
+
+  const getStatusColor = (status: string) => {
+    const colors: { [key: string]: string } = {
+      'submitted': 'bg-blue-100 text-blue-800',
+      'approved': 'bg-green-100 text-green-800',
+      'rejected': 'bg-red-100 text-red-800',
+      'pending': 'bg-yellow-100 text-yellow-800'
+    };
+    return colors[status] || 'bg-gray-100 text-gray-800';
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50">
@@ -70,12 +117,51 @@ const MyAccount = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8">
-                <p className="text-gray-500 mb-4">No applications found</p>
-                <Button asChild>
-                  <a href="/banking">Start New Application</a>
-                </Button>
-              </div>
+              {isLoading ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">Loading applications...</p>
+                </div>
+              ) : applications && applications.length > 0 ? (
+                <div className="space-y-4">
+                  {applications.map((application) => (
+                    <div key={application.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-3">
+                          <FileText className="h-5 w-5 text-gray-600" />
+                          <h3 className="font-semibold text-lg">
+                            {getApplicationTypeLabel(application.application_type)}
+                          </h3>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(application.status)}`}>
+                          {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-4 text-sm text-gray-600">
+                        <div className="flex items-center space-x-1">
+                          <Calendar className="h-4 w-4" />
+                          <span>Applied: {new Date(application.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Clock className="h-4 w-4" />
+                          <span>{new Date(application.created_at).toLocaleTimeString()}</span>
+                        </div>
+                      </div>
+                      {application.application_data?.name && (
+                        <p className="text-sm text-gray-500 mt-2">
+                          Applicant: {application.application_data.name}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500 mb-4">No applications found</p>
+                  <Button asChild>
+                    <a href="/banking">Start New Application</a>
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

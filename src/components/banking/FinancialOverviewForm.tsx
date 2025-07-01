@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +21,9 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart3 } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -56,6 +58,7 @@ const banks = [
 ];
 
 export const FinancialOverviewForm = ({ onBack }: FinancialOverviewFormProps) => {
+  const { user } = useAuth();
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -68,10 +71,44 @@ export const FinancialOverviewForm = ({ onBack }: FinancialOverviewFormProps) =>
     },
   });
 
-  const onSubmit = (data: FormData) => {
+  const saveApplication = async (data: FormData) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('applications')
+        .insert({
+          user_id: user.id,
+          application_type: 'financial_overview',
+          application_data: data,
+          status: 'submitted'
+        });
+
+      if (error) {
+        console.error('Error saving application:', error);
+        toast({
+          title: "Error",
+          description: "Failed to save application. Please try again.",
+        });
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error('Error saving application:', error);
+      return false;
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
     console.log("Financial Overview Form submitted:", data);
-    alert("Registration successful! You can now access your unified financial overview.");
-    onBack();
+    const saved = await saveApplication(data);
+    if (saved) {
+      toast({
+        title: "Registration Successful",
+        description: "Registration successful! You can now access your unified financial overview.",
+      });
+      onBack();
+    }
   };
 
   return (

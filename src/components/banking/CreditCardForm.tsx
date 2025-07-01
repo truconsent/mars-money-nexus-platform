@@ -14,7 +14,7 @@ import { PersonalInfoSection } from "./creditCard/PersonalInfoSection";
 import { IdentityVerificationSection } from "./creditCard/IdentityVerificationSection";
 import { ContactInfoSection } from "./creditCard/ContactInfoSection";
 import { useAuth } from "@/contexts/AuthContext";
-
+import { supabase } from "@/integrations/supabase/client";
 
 interface CreditCardFormProps {
   onBack: () => void;
@@ -39,24 +39,57 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
   });
 
   const [showBanner, setShowBanner] = useState(false);
+  const [formData, setFormData] = useState<CreditCardFormData | null>(null);
+
+  const saveApplication = async (data: CreditCardFormData) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('applications')
+        .insert({
+          user_id: user.id,
+          application_type: 'credit_card',
+          application_data: data,
+          status: 'submitted'
+        });
+
+      if (error) {
+        console.error('Error saving application:', error);
+        toast({
+          title: "Error",
+          description: "Failed to save application. Please try again.",
+        });
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error('Error saving application:', error);
+      return false;
+    }
+  };
 
   const onSubmit = (data: CreditCardFormData) => {
     console.log("Credit Card Application: Form submitted. Data captured:", data);
+    setFormData(data);
     console.log("Credit Card Application: Setting showBanner to true to display TruConsentModal.");
     setShowBanner(true);
     console.log("Credit Card Application: showBanner state is now:", true);
   };
 
-  const onSubmitted = (type: string) => {
+  const onSubmitted = async (type: string) => {
     console.log("Credit Card Application: TruConsentModal onClose triggered with type:", type);
-    if (type === "approved") {
-      toast({
-        title: "Application Submitted",
-        description: "Your credit card application has been submitted successfully! We will review and contact you soon.",
-      });
-      console.log("Credit Card Application: Consent approved. Hiding banner and navigating back.");
-      setShowBanner(false);
-      onBack();
+    if (type === "approved" && formData) {
+      const saved = await saveApplication(formData);
+      if (saved) {
+        toast({
+          title: "Application Submitted",
+          description: "Your credit card application has been submitted successfully! We will review and contact you soon.",
+        });
+        console.log("Credit Card Application: Consent approved. Hiding banner and navigating back.");
+        setShowBanner(false);
+        onBack();
+      }
     } else {
       toast({
         title: "Application Not Submitted",

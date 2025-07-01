@@ -22,9 +22,10 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
-import { toast } from "@/components/ui/use-toast"; // Importing the actual toast component
-import { TruConsentModal } from "@truconsent/consent-banner-react"; // Importing the actual TruConsentModal package
-
+import { toast } from "@/components/ui/use-toast";
+import { TruConsentModal } from "@truconsent/consent-banner-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -53,6 +54,7 @@ interface DematAccountFormProps {
 }
 
 export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
+  const { user } = useAuth();
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -70,50 +72,75 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
     },
   });
 
-  // State to control the visibility of the TruConsentModal
   const [showBanner, setShowBanner] = useState(false);
+  const [formData, setFormData] = useState<FormData | null>(null);
 
-  // onSubmit function, now triggers the consent banner
+  const saveApplication = async (data: FormData) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('applications')
+        .insert({
+          user_id: user.id,
+          application_type: 'demat_account',
+          application_data: data,
+          status: 'submitted'
+        });
+
+      if (error) {
+        console.error('Error saving application:', error);
+        toast({
+          title: "Error",
+          description: "Failed to save application. Please try again.",
+        });
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error('Error saving application:', error);
+      return false;
+    }
+  };
+
   const onSubmit = (data: FormData) => {
     console.log("Demat Account Form data captured:", data);
+    setFormData(data);
     console.log("Demat Account Application: Setting showBanner to true to display TruConsentModal.");
-    setShowBanner(true); // On form submission, show the consent banner.
+    setShowBanner(true);
     console.log("Demat Account Application: showBanner state is now:", true);
   };
 
-  // onSubmitted function, handles the response from the TruConsentModal
-  const onSubmitted = (type: string) => {
+  const onSubmitted = async (type: string) => {
     console.log("Demat Account Application: TruConsentModal onClose triggered with type:", type);
-    if (type === "approved") {
-      // If consent is approved, proceed with application submission success
-      toast({
-        title: "Application Submitted",
-        description: "Your Demat account application has been submitted successfully! You can now proceed to mutual fund selection.",
-      });
-      console.log("Demat Account Application: Consent approved. Hiding banner and navigating back.");
-      setShowBanner(false); // Hide the banner as consent is given and processed
-      onBack(); // Navigate back or reset the form
+    if (type === "approved" && formData) {
+      const saved = await saveApplication(formData);
+      if (saved) {
+        toast({
+          title: "Application Submitted",
+          description: "Your Demat account application has been submitted successfully! You can now proceed to mutual fund selection.",
+        });
+        console.log("Demat Account Application: Consent approved. Hiding banner and navigating back.");
+        setShowBanner(false);
+        onBack();
+      }
     } else {
-      // If consent is not approved (e.g., "denied" or closed), inform the user and keep the banner visible
       toast({
         title: "Application Not Submitted",
         description: "Please provide the consent to open your Demat account.",
       });
       console.log("Demat Account Application: Consent not approved. Re-showing banner.");
-      setShowBanner(true); // Ensure the banner remains visible to re-prompt for consent
+      setShowBanner(true);
     }
   };
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
-      {/* Conditionally render the TruConsentModal.
-          It will appear when showBanner state is true, typically after the user attempts to submit the form. */}
       {showBanner && (
         <TruConsentModal
-          bannerId={"CP012"} // Unique identifier for this specific Demat Account consent banner.
-                           // This ID must be configured in your TruConsent platform.
-          onClose={(type) => { // Callback fired when the user interacts with the modal (approves, denies, closes).
-            onSubmitted(type); // Pass the consent type (e.g., "approved", "denied") to our handler.
+          bannerId={"CP012"}
+          onClose={(type) => {
+            onSubmitted(type);
           }}
         />
       )}
@@ -136,8 +163,6 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
       
       <CardContent>
         <Form {...form}>
-          {/* The form's onSubmit event is now tied to our custom onSubmit function,
-              which will trigger the consent banner display. */}
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             {/* Personal Information */}
             <div className="space-y-6">
@@ -386,7 +411,6 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
               </div>
             </div>
 
-            {/* Form Submission Buttons */}
             <div className="flex gap-4 pt-6">
               <Button type="button" variant="outline" onClick={onBack} className="flex-1" size="lg">
                 Back to Services
