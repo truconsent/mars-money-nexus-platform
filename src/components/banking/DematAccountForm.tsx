@@ -26,6 +26,7 @@ import { toast } from "@/components/ui/use-toast";
 import { TruConsentModal } from "@truconsent/consent-banner-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { getOrCreateGuestId } from "@/utils/guestId";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -74,6 +75,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
 
   const [showBanner, setShowBanner] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
+  const [guestId, setGuestId] = useState<string | null>(null);
 
   const saveApplication = async (data: FormData) => {
     if (!user) return;
@@ -103,10 +105,14 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
     }
   };
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log("Demat Account Form data captured:", data);
     setFormData(data);
     console.log("Demat Account Application: Setting showBanner to true to display TruConsentModal.");
+    if (!user) {
+      const id = await getOrCreateGuestId();
+      setGuestId(id);
+    }
     setShowBanner(true);
     console.log("Demat Account Application: showBanner state is now:", true);
   };
@@ -136,8 +142,9 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
-      {showBanner && (
+      {showBanner && (user || guestId) && (
         <TruConsentModal
+          userId={user ? user.id : guestId!}
           bannerId={"CP012"}
           onClose={(type) => {
             onSubmitted(type);

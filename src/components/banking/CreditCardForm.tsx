@@ -15,6 +15,7 @@ import { IdentityVerificationSection } from "./creditCard/IdentityVerificationSe
 import { ContactInfoSection } from "./creditCard/ContactInfoSection";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { getOrCreateGuestId } from "@/utils/guestId";
 
 interface CreditCardFormProps {
   onBack: () => void;
@@ -40,6 +41,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
 
   const [showBanner, setShowBanner] = useState(false);
   const [formData, setFormData] = useState<CreditCardFormData | null>(null);
+  const [guestId, setGuestId] = useState<string | null>(null);
 
   const saveApplication = async (data: CreditCardFormData) => {
     if (!user) return;
@@ -69,10 +71,14 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
     }
   };
 
-  const onSubmit = (data: CreditCardFormData) => {
+  const onSubmit = async (data: CreditCardFormData) => {
     console.log("Credit Card Application: Form submitted. Data captured:", data);
     setFormData(data);
     console.log("Credit Card Application: Setting showBanner to true to display TruConsentModal.");
+    if (!user) {
+      const id = await getOrCreateGuestId();
+      setGuestId(id);
+    }
     setShowBanner(true);
     console.log("Credit Card Application: showBanner state is now:", true);
   };
@@ -102,9 +108,9 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
-      {showBanner && (
+      {showBanner && (user || guestId) && (
         <TruConsentModal
-          userId={user.id}
+          userId={user ? user.id : guestId!}
           bannerId={"CP007"}
           onClose={(type) => {
             onSubmitted(type);

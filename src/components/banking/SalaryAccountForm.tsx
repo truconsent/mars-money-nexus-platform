@@ -24,6 +24,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Building2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast"; // Importing toast
 import { TruConsentModal } from "@truconsent/consent-banner-react"; // Importing TruConsentModal
+import { useAuth } from "@/contexts/AuthContext";
+import { getOrCreateGuestId } from "@/utils/guestId";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -58,6 +60,7 @@ const businessPartners = [
 ];
 
 export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
+  const { user } = useAuth();
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -75,11 +78,16 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
 
   // State to control the visibility of the TruConsentModal
   const [showBanner, setShowBanner] = useState(false);
+  const [guestId, setGuestId] = useState<string | null>(null);
 
   // onSubmit function, now triggers the consent banner
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log("Salary Account Form data captured:", data);
     // Instead of direct submission, show the consent banner
+    if (!user) {
+      const id = await getOrCreateGuestId();
+      setGuestId(id);
+    }
     setShowBanner(true);
   };
 
@@ -108,8 +116,9 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
     <Card className="w-full max-w-4xl mx-auto">
       {/* Conditionally render the TruConsentModal.
           It will appear when showBanner state is true, typically after the user attempts to submit the form. */}
-      {showBanner && (
+      {showBanner && (user || guestId) && (
         <TruConsentModal
+          userId={user ? user.id : guestId!}
           bannerId={"CP003"} // Unique identifier for this specific salary account consent banner.
                            // This ID must be configured in your TruConsent platform.
           onClose={(type) => { // Callback fired when the user interacts with the modal (approves, denies, closes).

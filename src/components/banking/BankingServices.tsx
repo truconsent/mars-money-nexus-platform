@@ -25,9 +25,12 @@ export const BankingServices = () => {
 
   const handleApplyClick = (serviceId: string) => {
     setActiveForm(serviceId);
-    // Scroll to top of the page when form opens
+    // Scroll to the active form section when form opens
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const formSection = document.getElementById('active-form-section');
+      if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }, 100);
   };
 
@@ -72,7 +75,7 @@ export const BankingServices = () => {
 
   if (activeForm) {
     return (
-      <section className="py-20 bg-white min-h-screen">
+      <section id="active-form-section" className="py-20 bg-white min-h-screen scroll-mt-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <Button 
