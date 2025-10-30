@@ -4,8 +4,8 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Award, Globe } from "lucide-react";
-import '@truconsent/consent-banner-react/MarsConsentModal.css';
-import {TruConsentModal} from "@truconsent/consent-banner-react"
+import '@trueconsent/consent-banner-react/MarsConsentModal.css';
+import {TruConsentModal} from "@trueconsent/consent-banner-react"
 
 const About = () => {
   const values = [

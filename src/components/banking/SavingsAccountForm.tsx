@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PiggyBank } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import {TruConsentModal} from "@truconsent/consent-banner-react"
+import {TruConsentModal} from "@trueconsent/consent-banner-react"
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 
@@ -61,12 +61,19 @@ export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
   }
   return (
     <Card className="w-full max-w-4xl mx-auto">
-      {showBanner && (user || guestId) &&
-       <TruConsentModal userId={user ? user.id : guestId!} bannerId={"CP003"} onClose={(type)=>{
-        // console.log("close")
-        onSubmitted(type)
-       }}/>
-       }
+      {showBanner && (user || guestId) && (
+        <>
+          <TruConsentModal
+            userId={user ? user.id : guestId!}
+            logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
+            bannerId={"CP003"}
+            onClose={(type) => {
+              // console.log("close")
+              onSubmitted(type)
+            }}
+          />
+        </>
+      )}
       <CardHeader>
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">

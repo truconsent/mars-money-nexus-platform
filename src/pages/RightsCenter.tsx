@@ -3,8 +3,8 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-import "@truconsent/consent-banner-react/RightCenter.css"
-import {RightCenter} from "@truconsent/consent-banner-react"
+import "@trueconsent/consent-banner-react/RightCenter.css"
+import {RightCenter} from "@trueconsent/consent-banner-react"
 
 
 

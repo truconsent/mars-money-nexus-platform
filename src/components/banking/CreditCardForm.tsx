@@ -7,7 +7,7 @@ import { Form } from "@/components/ui/form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreditCard } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { TruConsentModal } from "@truconsent/consent-banner-react";
+import { TruConsentModal } from "@trueconsent/consent-banner-react";
 import { creditCardFormSchema, CreditCardFormData } from "./creditCard/creditCardSchema";
 import { FinancialInfoSection } from "./creditCard/FinancialInfoSection";
 import { PersonalInfoSection } from "./creditCard/PersonalInfoSection";
@@ -111,6 +111,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
       {showBanner && (user || guestId) && (
         <TruConsentModal
           userId={user ? user.id : guestId!}
+          logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
           bannerId={"CP007"}
           onClose={(type) => {
             onSubmitted(type);

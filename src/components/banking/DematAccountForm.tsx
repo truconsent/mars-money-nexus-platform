@@ -23,7 +23,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { TruConsentModal } from "@truconsent/consent-banner-react";
+import { TruConsentModal } from "@trueconsent/consent-banner-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { getOrCreateGuestId } from "@/utils/guestId";
@@ -145,6 +145,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
       {showBanner && (user || guestId) && (
         <TruConsentModal
           userId={user ? user.id : guestId!}
+          logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
           bannerId={"CP012"}
           onClose={(type) => {
             onSubmitted(type);
