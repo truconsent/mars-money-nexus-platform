@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,6 +21,10 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Banknote } from "lucide-react";
+import { TruConsentModal } from "@trueconsent/consent-banner-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { getOrCreateGuestId } from "@/utils/guestId";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -46,6 +49,9 @@ interface PersonalLoanFormProps {
 }
 
 export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
+  const { user } = useAuth();
+  const [showBanner, setShowBanner] = useState(false);
+  const [guestId, setGuestId] = useState<string | null>(null);
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,14 +67,46 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
     },
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log("Personal Loan Form submitted:", data);
-    alert("Personal loan application submitted successfully! We will review your application and get back to you soon.");
-    onBack();
+    if (!user) {
+      const id = await getOrCreateGuestId();
+      setGuestId(id);
+    }
+    setShowBanner(true);
+  };
+
+  const onSubmitted = (type) => {
+    if (type == "approved") {
+      toast({
+        title: "Application Submitted",
+        description: "Your personal loan application has been submitted successfully!",
+      });
+      onBack();
+      setShowBanner(false);
+    } else {
+      toast({
+        title: "Application Not Submitted",
+        description: "Please provide the necessary consent",
+      });
+      setShowBanner(true);
+    }
   };
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
+      {showBanner && (user || guestId) && (
+        <>
+          <TruConsentModal
+            userId={user ? user.id : guestId!}
+            logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
+            bannerId={"CP006"}
+            onClose={(type) => {
+              onSubmitted(type);
+            }}
+          />
+        </>
+      )}
       <CardHeader>
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">

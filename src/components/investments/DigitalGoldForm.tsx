@@ -12,19 +12,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp } from "lucide-react";
+import { Coins } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 import { TruConsentModal } from "@trueconsent/consent-banner-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
-import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -35,38 +29,46 @@ const formSchema = z.object({
   mobileNumber: z
     .string()
     .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number"),
-  portfolioValue: z.string().min(1, "Please enter portfolio value"),
-  loanAmount: z.string().min(1, "Please enter required loan amount"),
-  loanPurpose: z.string().min(1, "Please select loan purpose"),
-  repaymentTenure: z.string().min(1, "Please select repayment tenure"),
+  dateOfBirth: z.string().min(1, "Date of birth is required"),
+  gender: z.string().min(1, "Please select gender"),
+  maritalStatus: z.string().min(1, "Please select marital status"),
+  address: z.string().min(1, "Address is required"),
+  city: z.string().min(1, "City is required"),
+  state: z.string().min(1, "State is required"),
+  pincode: z.string().min(1, "Pincode is required"),
+  aadhar: z.string().min(1, "Aadhaar is required"),
 });
 
-type FormData = z.infer<typeof formSchema>;
+export type DigitalGoldFormData = z.infer<typeof formSchema>;
 
-interface LoanAgainstMFFormProps {
+interface DigitalGoldFormProps {
   onBack: () => void;
 }
 
-export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
+export const DigitalGoldForm = ({ onBack }: DigitalGoldFormProps) => {
   const { user } = useAuth();
   const [showBanner, setShowBanner] = useState(false);
   const [guestId, setGuestId] = useState<string | null>(null);
-  const form = useForm<FormData>({
+  const form = useForm<DigitalGoldFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       panNumber: "",
       emailAddress: "",
       mobileNumber: "",
-      portfolioValue: "",
-      loanAmount: "",
-      loanPurpose: "",
-      repaymentTenure: "",
+      dateOfBirth: "",
+      gender: "",
+      maritalStatus: "",
+      address: "",
+      city: "",
+      state: "",
+      pincode: "",
+      aadhar: "",
     },
   });
 
-  const onSubmit = async (data: FormData) => {
-    console.log("Loan Against MF Form submitted:", data);
+  const onSubmit = async (data: DigitalGoldFormData) => {
+    console.log("Digital Gold Form submitted:", data);
     if (!user) {
       const id = await getOrCreateGuestId();
       setGuestId(id);
@@ -78,13 +80,13 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
     if (type == "approved") {
       toast({
         title: "Application Submitted",
-        description: "Your loan against mutual funds application has been submitted successfully!",
+        description: "Your digital gold request has been submitted successfully!",
       });
       onBack();
       setShowBanner(false);
     } else {
       toast({
-        title: "Application Not Submitted",
+        title: "Action Needed",
         description: "Please provide the necessary consent",
       });
       setShowBanner(true);
@@ -98,7 +100,7 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
           <TruConsentModal
             userId={user ? user.id : guestId!}
             logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
-            bannerId={"CP006"}
+            bannerId={"CP008"}
             onClose={(type) => {
               onSubmitted(type);
             }}
@@ -107,29 +109,28 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
       )}
       <CardHeader>
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center">
-            <TrendingUp className="h-6 w-6 text-white" />
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-600 flex items-center justify-center">
+            <Coins className="h-6 w-6 text-white" />
           </div>
           <div>
             <CardTitle className="text-2xl font-bold text-gray-900">
-              Loan Against Mutual Funds
+              Digital Gold Application
             </CardTitle>
             <CardDescription>
-              Powered by mars.money • Get instant loans against your MF portfolio
+              Powered by mars.money • Start your Digital Gold journey in minutes
             </CardDescription>
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Personal Information */}
             <div className="space-y-6">
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Personal Information
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -152,10 +153,10 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
                     <FormItem>
                       <FormLabel>PAN Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="ABCDE1234F" 
+                        <Input
+                          placeholder="ABCDE1234F"
                           {...field}
-                          style={{ textTransform: 'uppercase' }}
+                          style={{ textTransform: "uppercase" }}
                           onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                         />
                       </FormControl>
@@ -185,38 +186,21 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
                     <FormItem>
                       <FormLabel>Mobile Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="9876543210" 
-                          {...field}
-                          maxLength={10}
-                        />
+                        <Input placeholder="9876543210" {...field} maxLength={10} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
-            </div>
 
-            {/* Portfolio & Loan Details */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
-                Portfolio & Loan Information
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
-                  name="portfolioValue"
+                  name="dateOfBirth"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Total Portfolio Value *</FormLabel>
+                      <FormLabel>Date of Birth *</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="Current market value" 
-                          {...field}
-                        />
+                        <Input type="date" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -225,41 +209,19 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
 
                 <FormField
                   control={form.control}
-                  name="loanAmount"
+                  name="gender"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Required Loan Amount *</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="Up to 70% of portfolio" 
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="loanPurpose"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Loan Purpose *</FormLabel>
+                      <FormLabel>Gender *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select loan purpose" />
+                            <SelectValue placeholder="Select gender" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="emergency">Emergency Fund</SelectItem>
-                          <SelectItem value="medical">Medical Expenses</SelectItem>
-                          <SelectItem value="education">Education</SelectItem>
-                          <SelectItem value="business">Business Investment</SelectItem>
-                          <SelectItem value="home-improvement">Home Improvement</SelectItem>
-                          <SelectItem value="debt-consolidation">Debt Consolidation</SelectItem>
+                          <SelectItem value="male">Male</SelectItem>
+                          <SelectItem value="female">Female</SelectItem>
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
@@ -270,22 +232,20 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
 
                 <FormField
                   control={form.control}
-                  name="repaymentTenure"
+                  name="maritalStatus"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Repayment Tenure *</FormLabel>
+                      <FormLabel>Marital Status *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select tenure" />
+                            <SelectValue placeholder="Select marital status" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="3months">3 Months</SelectItem>
-                          <SelectItem value="6months">6 Months</SelectItem>
-                          <SelectItem value="12months">12 Months</SelectItem>
-                          <SelectItem value="24months">24 Months</SelectItem>
-                          <SelectItem value="36months">36 Months</SelectItem>
+                          <SelectItem value="single">Single</SelectItem>
+                          <SelectItem value="married">Married</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -295,23 +255,89 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
               </div>
             </div>
 
-            <div className="bg-blue-50 p-6 rounded-xl">
-              <h4 className="font-semibold text-blue-900 mb-3">Key Benefits</h4>
-              <ul className="text-sm text-blue-800 space-y-2">
-                <li>• Continue earning returns on your mutual fund investments</li>
-                <li>• Lower interest rates compared to personal loans</li>
-                <li>• No processing fees or hidden charges</li>
-                <li>• Instant approval and disbursal</li>
-                <li>• Flexible repayment options</li>
-              </ul>
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">Address Details</h3>
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Address *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your address" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter city" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter state" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="pincode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Pincode *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter pincode" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="aadhar"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Aadhaar *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter Aadhaar number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
 
             <div className="flex gap-4 pt-6">
               <Button type="button" variant="outline" onClick={onBack} className="flex-1" size="lg">
                 Back to Services
               </Button>
-              <Button type="submit" className="flex-1 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700" size="lg">
-                Apply for Loan
+              <Button type="submit" className="flex-1 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700" size="lg">
+                Continue
               </Button>
             </div>
           </form>

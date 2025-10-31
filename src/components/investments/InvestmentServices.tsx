@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -9,10 +9,16 @@ import {
   Target,
   Shield,
   BarChart,
-  Wallet
+  Wallet,
+  ArrowLeft
 } from "lucide-react";
+import { DigitalGoldForm } from "./DigitalGoldForm";
+import { MutualFundsForm } from "./MutualFundsForm";
+import { DematAccountForm } from "./DematAccountForm";
+import { FixedDepositForm } from "./FixedDepositForm";
 
 export const InvestmentServices = () => {
+  const [activeForm, setActiveForm] = useState<string | null>(null);
   const services = [
     {
       id: "gold",
@@ -101,8 +107,70 @@ export const InvestmentServices = () => {
     }
   };
 
+  const handleApplyClick = (serviceId: string) => {
+    setActiveForm(serviceId);
+    setTimeout(() => {
+      const formSection = document.getElementById('active-form-section');
+      if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
+  const handleBackToServices = () => {
+    setActiveForm(null);
+    setTimeout(() => {
+      const servicesSection = document.querySelector('.services-section');
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
+  const renderActiveForm = () => {
+    switch (activeForm) {
+      case 'gold':
+        return <DigitalGoldForm onBack={handleBackToServices} />;
+      case 'mutual-funds':
+        return <MutualFundsForm onBack={handleBackToServices} />;
+      case 'demat':
+        return <DematAccountForm onBack={handleBackToServices} />;
+      case 'fixed-deposit':
+        return <FixedDepositForm onBack={handleBackToServices} />;
+      default:
+        return null;
+    }
+  };
+
+  const getServiceTitle = () => {
+    const service = services.find(s => s.id === activeForm);
+    return service ? service.title : '';
+  };
+
+  if (activeForm) {
+    return (
+      <section id="active-form-section" className="py-20 bg-white min-h-screen scroll-mt-32">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Button 
+              variant="ghost" 
+              onClick={handleBackToServices}
+              className="mb-4 text-purple-600 hover:text-purple-700"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Services
+            </Button>
+            <div className="text-sm text-gray-500 mb-2">Investment Services</div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{getServiceTitle()}</h1>
+          </div>
+          {renderActiveForm()}
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white services-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
@@ -211,7 +279,15 @@ export const InvestmentServices = () => {
                     <p className="mb-6 text-sm md:text-base">
                       Begin your wealth creation journey with mars.money
                     </p>
-                    <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 w-full">
+                    <Button
+                      size="lg"
+                      className="bg-white text-purple-600 hover:bg-gray-100 w-full"
+                      onClick={() => {
+                        if (service.id === "gold" || service.id === "mutual-funds" || service.id === "demat" || service.id === "fixed-deposit") {
+                          handleApplyClick(service.id);
+                        }
+                      }}
+                    >
                       Start Investing
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>

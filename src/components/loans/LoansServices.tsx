@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -8,10 +8,14 @@ import {
   ArrowRight,
   Clock,
   Shield,
-  Calculator
+  Calculator,
+  ArrowLeft
 } from "lucide-react";
+import { PersonalLoanForm } from "@/components/banking/PersonalLoanForm";
+import { LoanAgainstMFForm } from "@/components/banking/LoanAgainstMFForm";
 
 export const LoansServices = () => {
+  const [activeForm, setActiveForm] = useState<string | null>(null);
   const services = [
     {
       id: "personal-loan",
@@ -62,8 +66,66 @@ export const LoansServices = () => {
     }
   };
 
+  const handleApplyClick = (serviceId: string) => {
+    setActiveForm(serviceId);
+    setTimeout(() => {
+      const formSection = document.getElementById('active-form-section');
+      if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
+  const handleBackToServices = () => {
+    setActiveForm(null);
+    setTimeout(() => {
+      const servicesSection = document.querySelector('.services-section');
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
+  const renderActiveForm = () => {
+    switch (activeForm) {
+      case 'personal-loan':
+        return <PersonalLoanForm onBack={handleBackToServices} />;
+      case 'loans-against-mf':
+        return <LoanAgainstMFForm onBack={handleBackToServices} />;
+      default:
+        return null;
+    }
+  };
+
+  const getServiceTitle = () => {
+    const service = services.find(s => s.id === activeForm);
+    return service ? service.title : '';
+  };
+
+  if (activeForm) {
+    return (
+      <section id="active-form-section" className="py-20 bg-white min-h-screen scroll-mt-32">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Button 
+              variant="ghost" 
+              onClick={handleBackToServices}
+              className="mb-4 text-purple-600 hover:text-purple-700"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Services
+            </Button>
+            <div className="text-sm text-gray-500 mb-2">Loan Services</div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{getServiceTitle()}</h1>
+          </div>
+          {renderActiveForm()}
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white services-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -170,7 +232,11 @@ export const LoansServices = () => {
                     <p className="mb-6">
                       Get instant approval with mars.money's quick loan process
                     </p>
-                    <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 w-full">
+                    <Button 
+                      size="lg" 
+                      className="bg-white text-purple-600 hover:bg-gray-100 w-full"
+                      onClick={() => handleApplyClick(service.id)}
+                    >
                       Apply Now
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
