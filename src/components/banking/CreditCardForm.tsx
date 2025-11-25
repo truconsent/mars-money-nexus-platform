@@ -112,7 +112,9 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
         <TruConsentModal
           userId={user ? user.id : guestId!}
           logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
-          bannerId={"CP007"}
+          bannerId={"CP001"}
+          apiKey="4ytkL4Dlmbj2A1s5PSyDzzeNf10ZcH159T9kNCxPSOFVa5_oKW_fag"
+          organizationId="acme"
           onClose={(type) => {
             onSubmitted(type);
           }}
