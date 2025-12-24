@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PiggyBank } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import {TruConsentModal} from "@trueconsent/consent-banner-react"
+import {TruConsentModal} from "@trueconsent/consent-notice"
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 
@@ -63,13 +63,23 @@ export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
     <Card className="w-full max-w-4xl mx-auto">
       {showBanner && (user || guestId) && (
         <>
-          <TruConsentModal
+          {/* <TruConsentModal
             userId={user ? user.id : guestId!}
             logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
             bannerId={"CP003"}
             onClose={(type) => {
               // console.log("close")
               onSubmitted(type)
+            }}
+          /> */}
+          <TruConsentModal
+            userId={user ? user.id : guestId}
+            logUrl={"/lovable-uploads/0882fad9-7250-42d5-8afb-411258af9d54.png"}
+            bannerId="CP005"
+            apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
+            organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
+            onClose={(type) => {
+              onSubmitted(type);
             }}
           />
         </>

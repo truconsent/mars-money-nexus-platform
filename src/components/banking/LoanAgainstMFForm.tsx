@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
-import { TruConsentModal } from "@trueconsent/consent-banner-react";
+import { TruConsentModal } from "@trueconsent/consent-notice";
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 import { toast } from "@/components/ui/use-toast";
@@ -98,7 +98,9 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
           <TruConsentModal
             userId={user ? user.id : guestId!}
             logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
-            bannerId={"CP006"}
+            apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
+            organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
+            bannerId={"CP012"}
             onClose={(type) => {
               onSubmitted(type);
             }}

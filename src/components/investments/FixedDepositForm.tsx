@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wallet } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { TruConsentModal } from "@trueconsent/consent-banner-react";
+import { TruConsentModal } from "@trueconsent/consent-notice";
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 
@@ -96,7 +96,9 @@ export const FixedDepositForm = ({ onBack }: FixedDepositFormProps) => {
           <TruConsentModal
             userId={user ? user.id : guestId!}
             logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
-            bannerId={"CP010"}
+            bannerId={"CP009"}
+            apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
+            organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
             onClose={(type) => {
               onSubmitted(type);
             }}

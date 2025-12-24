@@ -23,7 +23,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast"; // Importing toast
-import { TruConsentModal } from "@trueconsent/consent-banner-react"; // Importing TruConsentModal
+import { TruConsentModal } from "@trueconsent/consent-notice"; // Importing TruConsentModal
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 
@@ -120,10 +120,11 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
         <TruConsentModal
           userId={user ? user.id : guestId!}
           logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
-          bannerId={"CP003"} // Unique identifier for this specific salary account consent banner.
-                           // This ID must be configured in your TruConsent platform.
-          onClose={(type) => { // Callback fired when the user interacts with the modal (approves, denies, closes).
-            onSubmitted(type); // Pass the consent type (e.g., "approved", "denied") to our handler.
+          bannerId={"CP005"}
+          apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
+          organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
+          onClose={(type) => {
+            onSubmitted(type);
           }}
         />
       )}
