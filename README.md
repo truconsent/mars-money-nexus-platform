@@ -1,73 +1,70 @@
-# Welcome to your Lovable project
+# Mars Money – Demo Website
 
-## Project info
+**Live site:** [https://demo.marsmoney.club](https://demo.marsmoney.club)
 
-**URL**: https://lovable.dev/projects/087d9ac0-6830-4348-9df5-9b673769f7c1
+## Overview
 
-## How can I edit this code?
+Mars Money is a demonstration website used to showcase consent management, data transparency, and scanning capabilities provided by **truConsent** and **truScanner**.
 
-There are several ways of editing your application.
+This repository is **not** the production codebase of Mars Money. It exists purely as a **demo and example project** to illustrate how truConsent and truScanner can be integrated and evaluated in a real-world styled application.
 
-**Use Lovable**
+## Purpose of This Repository
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/087d9ac0-6830-4348-9df5-9b673769f7c1) and start prompting.
+This repo serves as:
 
-Changes made via Lovable will be committed automatically to this repo.
+* ✅ A **demo site for truConsent** integrations
+* ✅ An **example repository for truScanner** scans and reports
+* ✅ A reference project for testing consent flows, UI components, and data discovery
 
-**Use your preferred IDE**
+Any data, flows, or configurations present here are for demonstration purposes only.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## About Mars Money
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Mars Money is a fintech-focused platform concept designed to represent modern financial web applications. In this demo, it acts as a realistic environment to:
 
-Follow these steps:
+* Display consent banners and preference management
+* Test scanning of frontend and backend code paths
+* Validate compliance-related workflows
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Technology Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+This demo project is built using:
 
-# Step 3: Install the necessary dependencies.
-npm i
+* Vite
+* TypeScript
+* React
+* shadcn/ui
+* Tailwind CSS
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## Development Setup
+
+To run the project locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/truconsent/mars-money-nexus-platform.git
+
+# Navigate to the project directory
+cd mars-money-nexus-platform
+
+# Install dependencies
+npm install
+
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Important Notes
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+* This repository is **for demonstration and testing only**
+* Do not use this codebase as a production reference without proper review
+* Any personal data references are simulated or intentionally minimal
 
-**Use GitHub Codespaces**
+## Related Products
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+* **truConsent** – Consent Management Platform (CMP)
+* **truScanner** – Automated code and data scanning tool
 
-## What technologies are used for this project?
+---
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/087d9ac0-6830-4348-9df5-9b673769f7c1) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+© Mars Money · Demo site for truConsent & truScanner
