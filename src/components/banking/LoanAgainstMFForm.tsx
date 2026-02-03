@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
-import { TruConsentModal } from "@trueconsent/consent-notice";
+import { TruConsentModal } from "@truconsent/consent-notice";
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 import { toast } from "@/components/ui/use-toast";
@@ -122,7 +122,7 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -131,7 +131,7 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Personal Information
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -154,8 +154,8 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
                     <FormItem>
                       <FormLabel>PAN Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="ABCDE1234F" 
+                        <Input
+                          placeholder="ABCDE1234F"
                           {...field}
                           style={{ textTransform: 'uppercase' }}
                           onChange={(e) => field.onChange(e.target.value.toUpperCase())}
@@ -187,8 +187,8 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
                     <FormItem>
                       <FormLabel>Mobile Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="9876543210" 
+                        <Input
+                          placeholder="9876543210"
                           {...field}
                           maxLength={10}
                         />
@@ -205,7 +205,7 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Portfolio & Loan Information
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -214,9 +214,9 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
                     <FormItem>
                       <FormLabel>Total Portfolio Value *</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="Current market value" 
+                        <Input
+                          type="number"
+                          placeholder="Current market value"
                           {...field}
                         />
                       </FormControl>
@@ -232,9 +232,9 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
                     <FormItem>
                       <FormLabel>Required Loan Amount *</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="Up to 70% of portfolio" 
+                        <Input
+                          type="number"
+                          placeholder="Up to 70% of portfolio"
                           {...field}
                         />
                       </FormControl>

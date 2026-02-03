@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PiggyBank } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import {TruConsentModal} from "@trueconsent/consent-notice"
+import { TruConsentModal } from "@truconsent/consent-notice"
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 
@@ -31,7 +31,7 @@ export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
   const { user, profile, logout } = useAuth();
   const [step, setStep] = useState(1);
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<SavingsFormData>();
-  const [showBanner,setShowBanner] = useState(false)
+  const [showBanner, setShowBanner] = useState(false)
   const [guestId, setGuestId] = useState<string | null>(null)
   const onSubmit = async (data: SavingsFormData) => {
     console.log("Savings Account Application:", data);
@@ -43,21 +43,21 @@ export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
 
   };
   const onSubmitted = (type) => {
-    if(type == "approved"){
+    if (type == "approved") {
       toast({
-          title: "Application Submitted",
-          description: "Your savings account application has been submitted successfully!",
-        });
-        onBack();
-        setShowBanner(false)
-      }
-      else{
-        toast({
-          title: "Application Not Submitted",
-          description: "Please provide the necessary consent",
-        });
-        setShowBanner(true)
-      }
+        title: "Application Submitted",
+        description: "Your savings account application has been submitted successfully!",
+      });
+      onBack();
+      setShowBanner(false)
+    }
+    else {
+      toast({
+        title: "Application Not Submitted",
+        description: "Please provide the necessary consent",
+      });
+      setShowBanner(true)
+    }
   }
   return (
     <Card className="w-full max-w-4xl mx-auto">

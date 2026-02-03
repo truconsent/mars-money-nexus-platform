@@ -7,7 +7,7 @@ import { Form } from "@/components/ui/form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreditCard } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { TruConsentModal } from "@trueconsent/consent-notice";
+import { TruConsentModal } from "@truconsent/consent-notice";
 import { creditCardFormSchema, CreditCardFormData } from "./creditCard/creditCardSchema";
 import { FinancialInfoSection } from "./creditCard/FinancialInfoSection";
 import { PersonalInfoSection } from "./creditCard/PersonalInfoSection";

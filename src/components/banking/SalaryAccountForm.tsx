@@ -23,7 +23,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast"; // Importing toast
-import { TruConsentModal } from "@trueconsent/consent-notice"; // Importing TruConsentModal
+import { TruConsentModal } from "@truconsent/consent-notice"; // Importing TruConsentModal
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 
@@ -144,7 +144,7 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <Form {...form}>
           {/* The form's onSubmit event is now tied to our custom onSubmit function,
@@ -155,7 +155,7 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Business Partnership
               </h3>
-              
+
               <FormField
                 control={form.control}
                 name="businessPartner"
@@ -187,7 +187,7 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Personal Information
               </h3>
-              
+
               <FormField
                 control={form.control}
                 name="name"
@@ -247,7 +247,7 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Identity Verification
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -256,8 +256,8 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
                     <FormItem>
                       <FormLabel>PAN Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="ABCDE1234F" 
+                        <Input
+                          placeholder="ABCDE1234F"
                           {...field}
                           style={{ textTransform: 'uppercase' }}
                           onChange={(e) => field.onChange(e.target.value.toUpperCase())}
@@ -275,8 +275,8 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
                     <FormItem>
                       <FormLabel>Aadhar Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="123456789012" 
+                        <Input
+                          placeholder="123456789012"
                           {...field}
                           maxLength={12}
                         />
@@ -293,7 +293,7 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Contact Information
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -316,8 +316,8 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
                     <FormItem>
                       <FormLabel>Mobile Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="9876543210" 
+                        <Input
+                          placeholder="9876543210"
                           {...field}
                           maxLength={10}
                         />

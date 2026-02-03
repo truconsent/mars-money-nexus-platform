@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Coins } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { TruConsentModal } from "@trueconsent/consent-notice";
+import { TruConsentModal } from "@truconsent/consent-notice";
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 

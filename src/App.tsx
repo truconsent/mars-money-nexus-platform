@@ -20,9 +20,9 @@ import Signup from "./pages/Signup";
 import RightsCenter from "./pages/RightsCenter";
 import MyAccount from "./pages/MyAccount";
 import NotFound from "./pages/NotFound";
-import "@trueconsent/consent-notice/banner-styles.css";
-import "@trueconsent/consent-notice/variables.css";
-import "@trueconsent/consent-notice/tailwind.css";
+import "@truconsent/consent-notice/banner-styles.css";
+import "@truconsent/consent-notice/variables.css";
+import "@truconsent/consent-notice/tailwind.css";
 
 const queryClient = new QueryClient();
 

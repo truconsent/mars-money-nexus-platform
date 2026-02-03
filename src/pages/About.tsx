@@ -4,8 +4,8 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Award, Globe } from "lucide-react";
-import '@trueconsent/consent-notice/MarsConsentModal.css';
-import {TruConsentModal} from "@trueconsent/consent-notice"
+import '@truconsent/consent-notice/MarsConsentModal.css';
+import { TruConsentModal } from "@truconsent/consent-notice"
 
 const About = () => {
   const values = [
@@ -50,26 +50,26 @@ const About = () => {
               Revolutionizing banking and financial services for the digital-first generation in India
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
               <p className="text-lg text-gray-600 mb-6">
-                mars.money was founded with a simple vision: to make banking and financial services 
-                accessible, affordable, and intuitive for every Indian. We recognized that traditional 
+                mars.money was founded with a simple vision: to make banking and financial services
+                accessible, affordable, and intuitive for every Indian. We recognized that traditional
                 banking often fell short of meeting the needs of the modern, digital-savvy consumer.
               </p>
               <p className="text-lg text-gray-600 mb-6">
-                By partnering with leading Indian banks like Federal Bank and Catholic Syrian Bank, 
-                we've created a comprehensive neo-banking platform that combines the trust and 
+                By partnering with leading Indian banks like Federal Bank and Catholic Syrian Bank,
+                we've created a comprehensive neo-banking platform that combines the trust and
                 security of established banking with the innovation and convenience of modern technology.
               </p>
               <p className="text-lg text-gray-600">
-                Today, mars.money serves thousands of customers across India, helping them save, 
+                Today, mars.money serves thousands of customers across India, helping them save,
                 invest, and manage their finances with confidence and ease.
               </p>
             </div>
-            
+
             <div className="bg-white rounded-2xl p-8 shadow-lg">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Why Choose Us?</h3>
               <ul className="space-y-4">
@@ -96,7 +96,7 @@ const About = () => {
               </ul>
             </div>
           </div>
-          
+
           <div className="mb-20">
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Our Values</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -117,7 +117,7 @@ const About = () => {
               ))}
             </div>
           </div>
-          
+
           <div className="text-center bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-white">
             <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Banking?</h2>
             <p className="text-xl mb-8 opacity-90">
@@ -129,7 +129,7 @@ const About = () => {
           </div>
         </div>
       </section>
-      
+
       <Footer />
     </div>
   );

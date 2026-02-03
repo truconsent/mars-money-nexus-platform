@@ -3,8 +3,8 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-import "@trueconsent/consent-notice/RightCenter.css"
-import { RightCenter } from "@trueconsent/consent-notice"
+import "@truconsent/consent-notice/RightCenter.css"
+import { RightCenter } from "@truconsent/consent-notice"
 
 
 
@@ -21,11 +21,11 @@ const RightsCenter = () => {
   return (
     <div className="">
       <Navigation />
-      <RightCenter 
-        userId={user.id.slice(0,6)}
+      <RightCenter
+        userId={user.id.slice(0, 6)}
         apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
         organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
-        />
+      />
 
       <Footer />
     </div>

@@ -23,7 +23,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { TruConsentModal } from "@trueconsent/consent-notice";
+import { TruConsentModal } from "@truconsent/consent-notice";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { getOrCreateGuestId } from "@/utils/guestId";
@@ -168,7 +168,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -177,7 +177,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Personal Information
               </h3>
-              
+
               <FormField
                 control={form.control}
                 name="name"
@@ -237,7 +237,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Identity Verification
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -246,8 +246,8 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
                     <FormItem>
                       <FormLabel>PAN Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="ABCDE1234F" 
+                        <Input
+                          placeholder="ABCDE1234F"
                           {...field}
                           style={{ textTransform: 'uppercase' }}
                           onChange={(e) => field.onChange(e.target.value.toUpperCase())}
@@ -265,8 +265,8 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
                     <FormItem>
                       <FormLabel>Aadhar Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="123456789012" 
+                        <Input
+                          placeholder="123456789012"
                           {...field}
                           maxLength={12}
                         />
@@ -283,7 +283,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Contact Information
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -306,8 +306,8 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
                     <FormItem>
                       <FormLabel>Mobile Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="9876543210" 
+                        <Input
+                          placeholder="9876543210"
                           {...field}
                           maxLength={10}
                         />
@@ -342,7 +342,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Investment Profile
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <FormField
                   control={form.control}

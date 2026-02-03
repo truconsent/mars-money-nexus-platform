@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Banknote } from "lucide-react";
-import { TruConsentModal } from "@trueconsent/consent-notice";
+import { TruConsentModal } from "@truconsent/consent-notice";
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrCreateGuestId } from "@/utils/guestId";
 import { toast } from "@/components/ui/use-toast";
@@ -124,7 +124,7 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -133,7 +133,7 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Personal Information
               </h3>
-              
+
               <FormField
                 control={form.control}
                 name="name"
@@ -155,8 +155,8 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
                   <FormItem>
                     <FormLabel>PAN Number *</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="ABCDE1234F" 
+                      <Input
+                        placeholder="ABCDE1234F"
                         {...field}
                         style={{ textTransform: 'uppercase' }}
                         onChange={(e) => field.onChange(e.target.value.toUpperCase())}
@@ -189,8 +189,8 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
                     <FormItem>
                       <FormLabel>Mobile Number *</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="9876543210" 
+                        <Input
+                          placeholder="9876543210"
                           {...field}
                           maxLength={10}
                         />
@@ -207,7 +207,7 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Loan Requirements
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -216,9 +216,9 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
                     <FormItem>
                       <FormLabel>Loan Amount *</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="₹50,000 - ₹50,00,000" 
+                        <Input
+                          type="number"
+                          placeholder="₹50,000 - ₹50,00,000"
                           {...field}
                         />
                       </FormControl>
@@ -287,7 +287,7 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
               <h3 className="text-xl font-semibold text-gray-900 border-b pb-3">
                 Employment Information
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
@@ -320,9 +320,9 @@ export const PersonalLoanForm = ({ onBack }: PersonalLoanFormProps) => {
                     <FormItem>
                       <FormLabel>Monthly Income *</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="Enter monthly income" 
+                        <Input
+                          type="number"
+                          placeholder="Enter monthly income"
                           {...field}
                         />
                       </FormControl>
