@@ -75,7 +75,7 @@ export const LoanAgainstMFForm = ({ onBack }: LoanAgainstMFFormProps) => {
   };
 
   const onSubmitted = (type) => {
-    if (type == "approved") {
+    if (type == "approved" || type == "partial_consent") {
       toast({
         title: "Application Submitted",
         description: "Your loan against mutual funds application has been submitted successfully!",

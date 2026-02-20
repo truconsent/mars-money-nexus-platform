@@ -43,7 +43,7 @@ export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
 
   };
   const onSubmitted = (type) => {
-    if (type == "approved") {
+    if (type == "approved" || type == "partial_consent") {
       toast({
         title: "Application Submitted",
         description: "Your savings account application has been submitted successfully!",

@@ -73,7 +73,7 @@ export const FixedDepositForm = ({ onBack }: FixedDepositFormProps) => {
   };
 
   const onSubmitted = (type) => {
-    if (type == "approved") {
+    if (type == "approved" || type == "partial_consent") {
       toast({
         title: "Application Submitted",
         description: "Your fixed deposit request has been submitted successfully!",
