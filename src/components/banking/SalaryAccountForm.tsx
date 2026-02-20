@@ -94,7 +94,7 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
   // onSubmitted function, handles the response from the TruConsentModal
   const onSubmitted = (type: string) => {
     console.log("Salary Account Application: TruConsentModal onClose triggered with type:", type);
-    if (type === "approved") {
+    if (type === "approved" || type === "partial_consent") {
       // If consent is approved, proceed with application submission success
       toast({
         title: "Application Submitted",

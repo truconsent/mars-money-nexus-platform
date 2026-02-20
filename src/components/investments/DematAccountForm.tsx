@@ -76,7 +76,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
   };
 
   const onSubmitted = (type) => {
-    if (type == "approved") {
+    if (type == "approved" || type == "partial_consent") {
       toast({
         title: "Application Submitted",
         description: "Your demat account application has been submitted successfully!",

@@ -85,7 +85,7 @@ export const CreditCardForm = ({ onBack }: CreditCardFormProps) => {
 
   const onSubmitted = async (type: string) => {
     console.log("Credit Card Application: TruConsentModal onClose triggered with type:", type);
-    if (type === "approved" && formData) {
+    if ((type === "approved" || type === "partial_consent") && formData) {
       const saved = await saveApplication(formData);
       if (saved) {
         toast({
