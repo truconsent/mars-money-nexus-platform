@@ -77,7 +77,7 @@ export const DigitalGoldForm = ({ onBack }: DigitalGoldFormProps) => {
   };
 
   const onSubmitted = (type) => {
-    if (type == "approved") {
+    if (type == "approved" || type == "partial_consent") {
       toast({
         title: "Application Submitted",
         description: "Your digital gold request has been submitted successfully!",

@@ -78,7 +78,7 @@ export const MutualFundsForm = ({ onBack }: MutualFundsFormProps) => {
   };
 
   const onSubmitted = (type) => {
-    if (type == "approved") {
+    if (type == "approved" || type == "partial_consent") {
       toast({
         title: "Application Submitted",
         description: "Your mutual fund details have been submitted successfully!",

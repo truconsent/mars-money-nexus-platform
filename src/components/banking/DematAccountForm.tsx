@@ -119,7 +119,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
 
   const onSubmitted = async (type: string) => {
     console.log("Demat Account Application: TruConsentModal onClose triggered with type:", type);
-    if (type === "approved" && formData) {
+    if ((type === "approved" || type === "partial_consent") && formData) {
       const saved = await saveApplication(formData);
       if (saved) {
         toast({
