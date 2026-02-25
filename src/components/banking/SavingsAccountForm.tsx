@@ -73,9 +73,10 @@ export const SavingsAccountForm = ({ onBack }: SavingsAccountFormProps) => {
             }}
           /> */}
           <TruConsentModal
-            userId={user ? user.id : guestId}
-            logUrl={"/lovable-uploads/0882fad9-7250-42d5-8afb-411258af9d54.png"}
+            userId={user ? user.id : guestId!}
+            logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
             bannerId="CP014"
+            apiUrl='https://api-dev.truconsent.io'
             apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
             organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
             onClose={(type) => {
