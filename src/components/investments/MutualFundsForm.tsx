@@ -102,7 +102,7 @@ export const MutualFundsForm = ({ onBack }: MutualFundsFormProps) => {
             userId={user ? user.id : guestId!}
             logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
             bannerId={"CP010"}
-            apiUrl='https://api-dev.truconsent.io'
+            apiUrl={import.meta.env.VITE_TRU_CONSENT_API_URL}
             apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
             organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
             onClose={(type) => {
