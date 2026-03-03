@@ -22,8 +22,10 @@ const RightsCenter = () => {
     <div className="">
       <Navigation />
       <RightCenter
-        userId={user.id.slice(0, 6)}
+        userId={user.id}
+        apiUrl={import.meta.env.VITE_TRU_CONSENT_API_URL}
         apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
+        assetId={import.meta.env.VITE_TRU_CONSENT_ASSET_ID}
         organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
       />
 
