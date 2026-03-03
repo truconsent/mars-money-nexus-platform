@@ -94,6 +94,7 @@ export const FixedDepositForm = ({ onBack }: FixedDepositFormProps) => {
       {showBanner && (user || guestId) && (
         <>
           <TruConsentModal
+            assetId={import.meta.env.VITE_TRU_CONSENT_ASSET_ID}
             userId={user ? user.id : guestId!}
             logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
             bannerId={"CP009"}
