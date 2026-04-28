@@ -2,6 +2,32 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+    </script>
+
+    <script 
+      src="https://d32j09pxkkxc4o.cloudfront.net/cmp.min.js"
+      data-api-url="%VITE_TRU_CONSENT_API_URL%"
+      data-asset-id="%VITE_TRU_CONSENT_ASSET_ID%"
+      data-api-key="%VITE_TRU_CONSENT_API_KEY%"
+      data-org-id="%VITE_TRU_CONSENT_ORGANIZATION_ID%"
+    ></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-93EPH72E4P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-93EPH72E4P');
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>mars-money-nexus-platform</title>
@@ -21,6 +47,8 @@
   </head>
 
   <body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MG69CSGS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
