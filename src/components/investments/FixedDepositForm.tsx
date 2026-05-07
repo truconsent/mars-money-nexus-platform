@@ -73,19 +73,27 @@ export const FixedDepositForm = ({ onBack }: FixedDepositFormProps) => {
   };
 
   const onSubmitted = (type) => {
-    if (type == "approved" || type == "partial_consent") {
+    console.log("Fixed Deposit Application: TruConsentModal onClose triggered with type:", type);
+    const normalizedType = (type || "no_action").toLowerCase().replace(/ /g, "_");
+
+    if (normalizedType === "approved" || normalizedType === "partial_consent" || normalizedType === "partially_consented") {
       toast({
         title: "Application Submitted",
         description: "Your fixed deposit request has been submitted successfully!",
       });
       onBack();
       setShowBanner(false);
-    } else {
+    } else if (normalizedType === "declined" || normalizedType === "rejected") {
       toast({
-        title: "Action Needed",
-        description: "Please provide the necessary consent",
+        variant: "destructive",
+        title: "Application Cancelled",
+        description: "Your application was not submitted as consent was declined.",
       });
-      setShowBanner(true);
+      onBack();
+      setShowBanner(false);
+    } else {
+      // For no_action or closing without decision, just hide the banner
+      setShowBanner(false);
     }
   };
 

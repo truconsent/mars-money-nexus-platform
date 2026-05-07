@@ -94,7 +94,9 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
   // onSubmitted function, handles the response from the TruConsentModal
   const onSubmitted = (type: string) => {
     console.log("Salary Account Application: TruConsentModal onClose triggered with type:", type);
-    if (type === "approved" || type === "partial_consent") {
+    const normalizedType = (type || "no_action").toLowerCase().replace(/ /g, "_");
+
+    if (normalizedType === "approved" || normalizedType === "partial_consent" || normalizedType === "partially_consented") {
       // If consent is approved, proceed with application submission success
       toast({
         title: "Application Submitted",
@@ -102,13 +104,18 @@ export const SalaryAccountForm = ({ onBack }: SalaryAccountFormProps) => {
       });
       setShowBanner(false); // Hide the banner as consent is given and processed
       onBack(); // Navigate back or reset form
-    } else {
-      // If consent is not approved, inform the user and keep the banner visible
+    } else if (normalizedType === "declined" || normalizedType === "rejected") {
+      // If consent is declined, inform the user and go back
       toast({
-        title: "Application Not Submitted",
-        description: "Please provide the consent to proceed with your salary account application.",
+        variant: "destructive",
+        title: "Application Cancelled",
+        description: "Your salary account application was not submitted as consent was declined.",
       });
-      setShowBanner(true); // Ensure the banner remains visible to re-prompt for consent
+      setShowBanner(false);
+      onBack();
+    } else {
+      // For no_action or closing without decision, just hide the banner
+      setShowBanner(false);
     }
   };
 

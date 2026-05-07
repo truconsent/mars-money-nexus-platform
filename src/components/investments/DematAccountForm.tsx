@@ -76,19 +76,27 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
   };
 
   const onSubmitted = (type) => {
-    if (type == "approved" || type == "partial_consent") {
+    console.log("Demat Account Application: TruConsentModal onClose triggered with type:", type);
+    const normalizedType = (type || "no_action").toLowerCase().replace(/ /g, "_");
+
+    if (normalizedType === "approved" || normalizedType === "partial_consent" || normalizedType === "partially_consented") {
       toast({
         title: "Application Submitted",
         description: "Your demat account application has been submitted successfully!",
       });
       onBack();
       setShowBanner(false);
-    } else {
+    } else if (normalizedType === "declined" || normalizedType === "rejected") {
       toast({
-        title: "Action Needed",
-        description: "Please provide the necessary consent",
+        variant: "destructive",
+        title: "Application Cancelled",
+        description: "Your application was not submitted as consent was declined.",
       });
-      setShowBanner(true);
+      onBack();
+      setShowBanner(false);
+    } else {
+      // For no_action or closing without decision, just hide the banner
+      setShowBanner(false);
     }
   };
 
@@ -100,7 +108,7 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
             assetId={import.meta.env.VITE_TRU_CONSENT_ASSET_ID}
             userId={user ? user.id : guestId!}
             logoUrl={"/lovable-uploads/d3d83a6e-8210-420a-a23b-0c89fc7ee3f4.png"}
-            bannerId={"CP013"}
+            bannerId={"CP026"}
             apiUrl={import.meta.env.VITE_TRU_CONSENT_API_URL}
             apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
             organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
