@@ -119,7 +119,9 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
 
   const onSubmitted = async (type: string) => {
     console.log("Demat Account Application: TruConsentModal onClose triggered with type:", type);
-    if ((type === "approved" || type === "partial_consent") && formData) {
+    const normalizedType = (type || "no_action").toLowerCase().replace(/ /g, "_");
+
+    if ((normalizedType === "approved" || normalizedType === "partial_consent" || normalizedType === "partially_consented") && formData) {
       const saved = await saveApplication(formData);
       if (saved) {
         toast({
@@ -130,13 +132,18 @@ export const DematAccountForm = ({ onBack }: DematAccountFormProps) => {
         setShowBanner(false);
         onBack();
       }
-    } else {
+    } else if (normalizedType === "declined" || normalizedType === "rejected") {
       toast({
-        title: "Application Not Submitted",
-        description: "Please provide the consent to open your Demat account.",
+        variant: "destructive",
+        title: "Application Cancelled",
+        description: "Your Demat account application was not submitted as consent was declined.",
       });
-      console.log("Demat Account Application: Consent not approved. Re-showing banner.");
-      setShowBanner(true);
+      console.log("Demat Account Application: Consent declined. Hiding banner and navigating back.");
+      setShowBanner(false);
+      onBack();
+    } else {
+      // For no_action or closing without decision, just hide the banner
+      setShowBanner(false);
     }
   };
 

@@ -24,7 +24,7 @@ const RightsCenter = () => {
       <RightCenter
         userId={user.id}
         apiUrl={import.meta.env.VITE_TRU_CONSENT_API_URL}
-        apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY}
+        apiKey={import.meta.env.VITE_TRU_CONSENT_API_KEY_RIGHT}
         assetId={import.meta.env.VITE_TRU_CONSENT_ASSET_ID}
         organizationId={import.meta.env.VITE_TRU_CONSENT_ORGANIZATION_ID}
       />
